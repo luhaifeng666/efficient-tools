@@ -2,7 +2,7 @@
 	"name": "efficient-tools",
 	"author": "luhaifeng",
 	"description": "Provide some efficient tools to improve your efficiency.",
-	"version": "0.1.3",
+	"version": "0.1.4",
 	"main": "index.js",
 	"repository": "https://github.com/luhaifeng666/efficient-tools",
 	"homepage": "https://github.com/luhaifeng666/efficient-tools",
