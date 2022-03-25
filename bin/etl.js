@@ -1,9 +1,8 @@
 #! /usr/bin/env node
 
-const fs = require('fs')
 const { program } = require('../src/utils/programInit')
-const { BASE_URL, jumpUrl, getAddresses } = require('../src/utils/etl')
-const { errorHandler, successHandler } = require('../src/utils/common')
+const { jumpUrl, getAddresses, addAddresses } = require('../src/utils/etl')
+const { successHandler } = require('../src/utils/common')
 
 /**
  * arguments defination
@@ -19,10 +18,11 @@ program
   .option('-r, --remove <key>', 'remove an address')
   .option('-l, --list', 'show all addresses')
   .option('-c, --check <key>', 'show an address')
+  .option('-e, --empty', 'delete all addresses')
 
 program.parse(process.argv)
 
-const { open, add, remove, list, check } = program.opts()
+const { open, add, remove, list, check, empty } = program.opts()
 
 // open address
 if (open) {
@@ -46,21 +46,24 @@ if (add) {
   getAddresses(data => {
     let addressConf = data || JSON.stringify({})
     const strs = add.split('/')
-    const key = program.args.slice(-1) || strs[strs.length - 1]
+    const key = program.args[program.args.length - 1] || strs[strs.length - 1]
     addressConf = { ...JSON.parse(addressConf), [key]: add }
-    fs.writeFile(BASE_URL, JSON.stringify(addressConf), err => {
-      err && errorHandler(`gla --add/-a error: ${err}`)
+    addAddresses(addressConf, {
+      errorMsg: 'gla --add/-a error: ',
+      successMsg: `The address named '${key}' has been instered!`
     })
   }, true)
 }
 
 // remove address
-if (remove) {
+// TODO Confirm again
+if (remove || remove === '') {
   getAddresses(data => {
     const originData = JSON.parse(data)
     delete originData[remove]
-    fs.writeFile(BASE_URL, JSON.stringify(originData), err => {
-      err && errorHandler(`gla --remove/-r error: ${err}`)
+    addAddresses(originData, {
+      errorMsg: 'gla --remove/-r error: ',
+      successMsg: `The address named '${remove}' has been removed!`
     })
   })
 }
@@ -69,5 +72,16 @@ if (remove) {
 if (check) {
   getAddresses(data => {
     successHandler(`${check} address is: ${JSON.parse(data)[check]}`)
+  })
+}
+
+// delete all addresses
+// TODO Confirm again
+if (empty) {
+  getAddresses(data => {
+    addAddresses({}, {
+      errorMsg: 'gla --empty/-e error: ',
+      successMsg: 'All addresses have been deleted!'
+    })
   })
 }

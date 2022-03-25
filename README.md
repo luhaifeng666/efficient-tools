@@ -2,7 +2,7 @@
 
 <p align="center">Provide some efficient tools to improve your efficiency.</p>
 
-<p align="center"><img src="https://img.shields.io/badge/-v0.1.0-orange"></p>
+<p align="center"><img src="https://img.shields.io/badge/-v0.1.1-orange"></p>
 
 # Install
 
@@ -25,5 +25,6 @@ Options:
   -r, --remove <key>         remove an address
   -l, --list                 show all addresses
   -c, --check <key>          show an address
-  -h, --help                 display help for command
+  -e, --empty                delete all addresses
+  -h, --help                 display help for commandcommand
 ```
