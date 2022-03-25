@@ -1,8 +1,9 @@
 #! /usr/bin/env node
 
+const inquirer = require('inquirer')
 const { program } = require('../src/utils/programInit')
 const { jumpUrl, getAddresses, addAddresses } = require('../src/utils/etl')
-const { successHandler } = require('../src/utils/common')
+const { successHandler, errorHandler } = require('../src/utils/common')
 
 /**
  * arguments defination
@@ -26,7 +27,14 @@ const { open, add, remove, list, check, empty } = program.opts()
 
 // open address
 if (open) {
-  getAddresses(data => { jumpUrl(JSON.parse(data)[open]) })
+  getAddresses(data => {
+    const url = JSON.parse(data)[open] || ''
+    if (url) {
+      jumpUrl(url)
+    } else {
+      errorHandler(`Address named ${open} does not exist! You can try using 'gla -a/--add' command first.`)
+    }
+  })
 }
 
 // print list
@@ -56,15 +64,29 @@ if (add) {
 }
 
 // remove address
-// TODO Confirm again
 if (remove || remove === '') {
-  getAddresses(data => {
-    const originData = JSON.parse(data)
-    delete originData[remove]
-    addAddresses(originData, {
-      errorMsg: 'gla --remove/-r error: ',
-      successMsg: `The address named '${remove}' has been removed!`
+  inquirer.prompt([
+    {
+      type: 'confirm',
+      name: 'delete-address',
+      message: 'Are you sure to delete this addresses?',
+      default: false
+    }
+  ]).then(answer => {
+    answer['delete-address'] && getAddresses(data => {
+      const originData = JSON.parse(data)
+      if (originData[remove]) {
+        delete originData[remove]
+        addAddresses(originData, {
+          errorMsg: 'gla --remove/-r error: ',
+          successMsg: `The address named '${remove}' has been removed!`
+        })
+      } else {
+        errorHandler(`Address named ${remove} does not exist!`)
+      }
     })
+  }).catch(err => {
+    errorHandler(err)
   })
 }
 
@@ -76,12 +98,22 @@ if (check) {
 }
 
 // delete all addresses
-// TODO Confirm again
 if (empty) {
-  getAddresses(data => {
-    addAddresses({}, {
-      errorMsg: 'gla --empty/-e error: ',
-      successMsg: 'All addresses have been deleted!'
+  inquirer.prompt([
+    {
+      type: 'confirm',
+      name: 'delete-all',
+      message: 'Are you sure to delete all addresses?',
+      default: false
+    }
+  ]).then(answer => {
+    answer['delete-all'] && getAddresses(data => {
+      addAddresses({}, {
+        errorMsg: 'gla --empty/-e error: ',
+        successMsg: 'All addresses have been deleted!'
+      })
     })
+  }).catch(err => {
+    errorHandler(err)
   })
 }
