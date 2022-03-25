@@ -31,5 +31,5 @@ Options:
   -l, --list                 show all addresses
   -c, --check <key>          show an address
   -e, --empty                delete all addresses
-  -h, --help                 display help for commandcommand
+  -h, --help                 display help for command
 ```
