@@ -1,8 +1,8 @@
 #! /usr/bin/env node
-
-const inquirer = require('inquirer')
+const fs = require('fs')
+const path = require('path')
 const { program } = require('../src/utils/programInit')
-const { jumpUrl, getAddresses, addAddresses } = require('../src/utils/etl')
+const { jumpUrl, getAddresses, addAddresses, promptCreator } = require('../src/utils/etl')
 const { successHandler, errorHandler } = require('../src/utils/common')
 
 /**
@@ -20,10 +20,12 @@ program
   .option('-l, --list', 'show all addresses')
   .option('-c, --check <key>', 'show an address')
   .option('-e, --empty', 'delete all addresses')
+  .option('-d, --derive', 'export all addresses to the target file')
+  .option('-i, --init <filePath>', 'insert addresses to local')
 
 program.parse(process.argv)
 
-const { open, add, remove, list, check, empty } = program.opts()
+const { open, add, remove, list, check, empty, derive, init } = program.opts()
 
 // open address
 if (open) {
@@ -65,15 +67,15 @@ if (add) {
 
 // remove address
 if (remove || remove === '') {
-  inquirer.prompt([
+  promptCreator([
     {
       type: 'confirm',
-      name: 'delete-address',
+      name: 'deleteAddress',
       message: 'Are you sure to delete this addresses?',
       default: false
     }
-  ]).then(answer => {
-    answer['delete-address'] && getAddresses(data => {
+  ], answer => {
+    answer['deleteAddress'] && getAddresses(data => {
       const originData = JSON.parse(data)
       if (originData[remove]) {
         delete originData[remove]
@@ -85,8 +87,6 @@ if (remove || remove === '') {
         errorHandler(`Address named ${remove} does not exist!`)
       }
     })
-  }).catch(err => {
-    errorHandler(err)
   })
 }
 
@@ -99,21 +99,61 @@ if (check) {
 
 // delete all addresses
 if (empty) {
-  inquirer.prompt([
+  promptCreator([
     {
       type: 'confirm',
-      name: 'delete-all',
+      name: 'deleteAll',
       message: 'Are you sure to delete all addresses?',
       default: false
     }
-  ]).then(answer => {
-    answer['delete-all'] && getAddresses(data => {
+  ], answer => {
+    answer['deleteAll'] && getAddresses(data => {
       addAddresses({}, {
         errorMsg: 'gla --empty/-e error: ',
         successMsg: 'All addresses have been deleted!'
       })
     })
-  }).catch(err => {
-    errorHandler(err)
+  })
+}
+
+// export address configuration
+if (derive) {
+  promptCreator([
+    {
+      type: 'input',
+      name: 'filename',
+      message: 'What is the filename?',
+      default: 'addresses'
+    }
+  ],answer => {
+    const { filename } = answer
+    getAddresses(data => {
+      const dir = path.join(__dirname, `${filename}`)
+      fs.writeFile(dir, data, err => {
+        if (err) {
+          errorHandler(err)
+        } else {
+          successHandler(`Derivation completed！File in ${dir}`)
+        }
+      })
+    })
+  })
+}
+
+// insert addresses to local
+if (init) {
+  fs.readFile(init, { encoding: 'utf-8'}, (err, content) => {
+    if (err) {
+      errorHandler(err)
+    } else {
+      getAddresses(data => {
+        let addressConf = data || '{}'
+        addressConf = { ...JSON.parse(addressConf), ...JSON.parse(content || '{}') }
+        addAddresses(addressConf, {
+          errorMsg: 'Failed to initialize!',
+          successMsg: `Initialized!`
+        })
+      }, true)
+    }
   })
 }
