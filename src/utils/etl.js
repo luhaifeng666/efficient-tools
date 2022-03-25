@@ -1,6 +1,7 @@
 #!/usr/bin/env zx
 
 require('zx/globals')
+const inquirer = require('inquirer')
 const { errorHandler, warningHandler, successHandler } = require('./common')
 const fs = require('fs')
 const path = require('path')
@@ -23,7 +24,7 @@ module.exports.jumpUrl = async function (url) {
  * @param {Boolean} isAdd add tag
  */
 module.exports.getAddresses = function (cb, isAdd = false) {
-  fs.readFile(BASE_URL, (err, data) => {
+  fs.readFile(BASE_URL, { encoding: 'utf-8'}, (err, data) => {
     try {
       if (!isAdd && err) {
         if (err.code === 'ENOENT') {
@@ -39,6 +40,11 @@ module.exports.getAddresses = function (cb, isAdd = false) {
   })
 }
 
+/**
+ * addAddresses
+ * @param {Object} data file data
+ * @param {Object} msgConfig success message && error message
+ */
 module.exports.addAddresses = function (data, { successMsg = 'Completed!', errorMsg = 'Error!'}) {
   fs.writeFile(BASE_URL, JSON.stringify(data), err => {
     if (err) {
@@ -46,5 +52,18 @@ module.exports.addAddresses = function (data, { successMsg = 'Completed!', error
     } else {
       successHandler(successMsg)
     }
+  })
+}
+
+/**
+ * promptCreator
+ * @param {Object[]} configs 
+ * @param {Function} cb 
+ */
+module.exports.promptCreator = function (configs, cb) {
+  inquirer.prompt(configs).then(answer => {
+    cb(answer)
+  }).catch(err => {
+    errorHandler(err)
   })
 }

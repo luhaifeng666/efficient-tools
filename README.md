@@ -5,7 +5,7 @@
 <p align="center">Provide some efficient tools to improve your efficiency.</p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/-v0.1.4-yellow">
+  <img src="https://img.shields.io/badge/-v0.1.5-yellow">
   <img src="https://img.shields.io/badge/node-v14.17.0%2B-green">
 </p>
 
@@ -31,5 +31,7 @@ Options:
   -l, --list                 show all addresses
   -c, --check <key>          show an address
   -e, --empty                delete all addresses
+  -d, --derive               export all addresses to the target file
+  -i, --init <filePath>      insert addresses to local
   -h, --help                 display help for command
 ```
