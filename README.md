@@ -2,7 +2,7 @@
 
 <p align="center">Provide some efficient tools to improve your efficiency.</p>
 
-<p align="center"><img src="https://img.shields.io/badge/-v0.1.1-orange"></p>
+<p align="center"><img src="https://img.shields.io/badge/-v0.1.2-orange"></p>
 
 # Install
 
