@@ -1,8 +1,13 @@
+<p  align="center"><img src="./src/public/images/scratch.svg" /></p>
+
 <h1 align="center">efficient-tools</h1>
 
 <p align="center">Provide some efficient tools to improve your efficiency.</p>
 
-<p align="center"><img src="https://img.shields.io/badge/-v0.1.2-orange"></p>
+<p align="center">
+  <img src="https://img.shields.io/badge/-v0.1.3-yellow">
+  <img src="https://img.shields.io/badge/node-v14.17.0%2B-green">
+</p>
 
 # Install
 
@@ -12,7 +17,7 @@ npm i -g efficient-tools
 
 # Usage
 
-<h2 align="center">etl</h2>
+<h2 align="center">ET-Link</h2>
 
 <p align="center">A tool to help you open a link quickly.</p>
 
