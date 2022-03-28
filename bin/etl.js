@@ -34,7 +34,7 @@ if (open) {
     if (url) {
       jumpUrl(url)
     } else {
-      errorHandler(`Address named ${open} does not exist! You can try using 'gla -a/--add' command first.`)
+      errorHandler(`Address named ${open} does not exist! You can try using 'etl -a/--add' command first.`)
     }
   })
 }
@@ -59,7 +59,7 @@ if (add) {
     const key = program.args[program.args.length - 1] || strs[strs.length - 1]
     addressConf = { ...JSON.parse(addressConf), [key]: add }
     addAddresses(addressConf, {
-      errorMsg: 'gla --add/-a error: ',
+      errorMsg: 'etl --add/-a error: ',
       successMsg: `The address named '${key}' has been instered!`
     })
   }, true)
@@ -80,7 +80,7 @@ if (remove || remove === '') {
       if (originData[remove]) {
         delete originData[remove]
         addAddresses(originData, {
-          errorMsg: 'gla --remove/-r error: ',
+          errorMsg: 'etl --remove/-r error: ',
           successMsg: `The address named '${remove}' has been removed!`
         })
       } else {
@@ -109,7 +109,7 @@ if (empty) {
   ], answer => {
     answer['deleteAll'] && getAddresses(data => {
       addAddresses({}, {
-        errorMsg: 'gla --empty/-e error: ',
+        errorMsg: 'etl --empty/-e error: ',
         successMsg: 'All addresses have been deleted!'
       })
     })

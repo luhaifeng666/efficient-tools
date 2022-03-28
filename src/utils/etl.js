@@ -7,7 +7,7 @@ const fs = require('fs')
 const path = require('path')
 const { PLATFORMS_TYPE } = require('../constants/index.js')
 
-const BASE_URL = path.join(process.env.HOME, '/gla.json')
+const BASE_URL = path.join(process.env.HOME, '/etl.json')
 
 /**
  * jumpUrl
