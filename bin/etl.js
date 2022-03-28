@@ -123,12 +123,12 @@ if (derive) {
       type: 'input',
       name: 'filename',
       message: 'What is the filename?',
-      default: 'addresses'
+      default: 'addresses.json'
     }
   ],answer => {
     const { filename } = answer
     getAddresses(data => {
-      const dir = path.join(__dirname, `${filename}`)
+      const dir = path.join(process.env.PWD, `${filename}`)
       fs.writeFile(dir, data, err => {
         if (err) {
           errorHandler(err)
