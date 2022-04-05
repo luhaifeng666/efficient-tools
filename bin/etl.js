@@ -16,7 +16,7 @@ const { successHandler, errorHandler } = require('../src/utils/common')
 program
   .option('-o, --open <key>', 'open an address')
   .option('-a, --add <address> [key]', 'add an address')
-  .option('-r, --remove <key>', 'remove an address')
+  .option('-r, --remove <key...>', 'remove an address')
   .option('-l, --list', 'show all addresses')
   .option('-c, --check <key>', 'show an address')
   .option('-e, --empty', 'delete all addresses')
@@ -66,26 +66,28 @@ if (add) {
 }
 
 // remove address
-if (remove || remove === '') {
+if (remove) {
   promptCreator([
     {
       type: 'confirm',
       name: 'deleteAddress',
-      message: 'Are you sure to delete this addresses?',
+      message: 'Are you sure to delete these addresses?',
       default: false
     }
   ], answer => {
     answer['deleteAddress'] && getAddresses(data => {
       const originData = JSON.parse(data)
-      if (originData[remove]) {
-        delete originData[remove]
-        addAddresses(originData, {
-          errorMsg: 'etl --remove/-r error: ',
-          successMsg: `The address named '${remove}' has been removed!`
-        })
-      } else {
-        errorHandler(`Address named ${remove} does not exist!`)
-      }
+      remove.forEach(key => {
+        if (originData[key]) {
+          delete originData[key]
+        } else {
+          errorHandler(`Address named ${key} does not exist!`)
+        }
+      })
+      addAddresses(originData, {
+        errorMsg: 'etl --remove/-r error: ',
+        successMsg: `The address named '${remove}' has been removed!`
+      })
     })
   })
 }
