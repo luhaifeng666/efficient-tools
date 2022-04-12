@@ -1,17 +1,16 @@
 #! /usr/bin/env node
 const fs = require('fs')
 const path = require('path')
+const dotenv = require('dotenv')
 const { program } = require('../src/utils/programInit')
 const { jumpUrl, getAddresses, addAddresses, promptCreator } = require('../src/utils/etl')
 const { successHandler, errorHandler } = require('../src/utils/common')
+const dotenvPath = path.join(__dirname, '../.env')
+
+dotenv.config({ path: dotenvPath })
 
 /**
  * arguments defination
- * 1. -o/--open
- * 2. -a/--add
- * 3. -r/--remove
- * 4. -l/--list
- * 5. -c/--check
  */
 program
   .option('-o, --open <key>', 'open an address')
@@ -22,10 +21,11 @@ program
   .option('-e, --empty', 'delete all addresses')
   .option('-d, --derive', 'export all addresses to the target file')
   .option('-i, --init <filePath>', 'insert addresses to local')
+  .option('--directory', 'set custom filepath')
 
 program.parse(process.argv)
 
-const { open, add, remove, list, check, empty, derive, init } = program.opts()
+const { open, add, remove, list, check, empty, derive, init, directory } = program.opts()
 
 // open address
 if (open) {
@@ -157,5 +157,34 @@ if (init) {
         })
       }, true)
     }
+  })
+}
+
+// set custom filepath
+if (directory) {
+  promptCreator([
+    {
+      type: 'input',
+      name: 'directory',
+      message: 'In which directory are the addresses stored?',
+      validate: answer => {
+        if (!(answer.trim())) {
+          return 'Directory shouldn\'t be empty!'
+        }
+        const target = answer.split('/').slice(-1)[0]
+        if (target.includes('.')) {
+          return 'Directory shouldn\'t be a filepath!'
+        }
+        return true
+      }
+    }
+  ], answer => {
+    fs.writeFile(dotenvPath, `ETL_DIRECTORY=${answer.directory}`, err => {
+      if (err) {
+        errorHandler(`${errorMsg}${err}`)
+      } else {
+        successHandler(`Setup completed! The addresses will be saved to ${answer.directory}`)
+      }
+    })
   })
 }

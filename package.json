@@ -2,7 +2,7 @@
 	"name": "efficient-tools",
 	"author": "luhaifeng",
 	"description": "Provide some efficient tools to improve your efficiency.",
-	"version": "0.1.8",
+	"version": "0.1.9",
 	"main": "index.js",
 	"repository": "https://github.com/luhaifeng666/efficient-tools",
 	"homepage": "https://github.com/luhaifeng666/efficient-tools",
@@ -22,11 +22,12 @@
 		"efficient"
 	],
 	"license": "ISC",
-  "dependencies": {
-    "commander": "^9.1.0",
-    "zx": "^4.2.0",
-    "inquirer": "^8.2.0"
-  },
+	"dependencies": {
+		"commander": "^9.1.0",
+		"dotenv": "^16.0.0",
+		"inquirer": "^8.2.0",
+		"zx": "^4.2.0"
+	},
 	"devDependencies": {
 		"commitizen": "^4.2.3",
 		"cz-conventional-changelog": "^3.3.0",

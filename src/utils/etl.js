@@ -1,13 +1,19 @@
 #!/usr/bin/env zx
 
 require('zx/globals')
+const dotenv = require('dotenv')
 const inquirer = require('inquirer')
 const { errorHandler, warningHandler, successHandler } = require('./common')
 const fs = require('fs')
 const path = require('path')
 const { PLATFORMS_TYPE } = require('../constants/index.js')
 
-const BASE_URL = path.join(process.env.HOME, '/etl.json')
+dotenv.config({ path: path.join(__dirname, '../../.env') })
+
+
+const { HOME, ETL_DIRECTORY } = process.env
+
+const BASE_URL = ETL_DIRECTORY || path.join(HOME, '/etl.json')
 
 /**
  * jumpUrl
