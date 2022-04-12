@@ -4,6 +4,7 @@ specifiers:
   commander: ^9.1.0
   commitizen: ^4.2.3
   cz-conventional-changelog: ^3.3.0
+  dotenv: ^16.0.0
   husky: ^5.0.9
   inquirer: ^8.2.0
   lint-staged: ^10.5.4
@@ -11,6 +12,7 @@ specifiers:
 
 dependencies:
   commander: registry.npmmirror.com/commander/9.1.0
+  dotenv: 16.0.0
   inquirer: registry.npmmirror.com/inquirer/8.2.2
   zx: registry.npmmirror.com/zx/4.3.0
 
@@ -21,6 +23,37 @@ devDependencies:
   lint-staged: registry.npmmirror.com/lint-staged/10.5.4
 
 packages:
+
+  /@commitlint/load/16.2.3:
+    resolution: {integrity: sha512-Hb4OUlMnBUK6UxJEZ/VJ5k0LocIS7PtEMbRXEAA7eSpOgORIFexC4K/RaRpVd5UTtu3M0ST3ddPPijF9rdW6nw==}
+    engines: {node: '>=v12'}
+    requiresBuild: true
+    dependencies:
+      '@commitlint/config-validator': registry.npmmirror.com/@commitlint/config-validator/16.2.1
+      '@commitlint/execute-rule': registry.npmmirror.com/@commitlint/execute-rule/16.2.1
+      '@commitlint/resolve-extends': registry.npmmirror.com/@commitlint/resolve-extends/16.2.1
+      '@commitlint/types': registry.npmmirror.com/@commitlint/types/16.2.1
+      '@types/node': registry.npmmirror.com/@types/node/17.0.23
+      chalk: registry.npmmirror.com/chalk/4.1.2
+      cosmiconfig: registry.npmmirror.com/cosmiconfig/7.0.1
+      cosmiconfig-typescript-loader: registry.npmmirror.com/cosmiconfig-typescript-loader/1.0.6_7536da6021bfbb65f034b881e81b4dd3
+      lodash: registry.npmmirror.com/lodash/4.17.21
+      resolve-from: registry.npmmirror.com/resolve-from/5.0.0
+      typescript: registry.npmmirror.com/typescript/4.6.2
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+    dev: true
+    optional: true
+
+  /dotenv/16.0.0:
+    resolution: {integrity: sha512-qD9WU0MPM4SWLPJy/r2Be+2WgQj8plChsyrCNQzW/0WjvcJQiKQJ9mH3ZgB3fxbUUxgc/11ZJ0Fi5KiimWGz2Q==}
+    engines: {node: '>=12'}
+    dev: false
+
+  /graceful-fs/4.2.9:
+    resolution: {integrity: sha512-NtNxqUcXgpW2iMrfqSfR73Glt39K+BLwWsPs94yR63v45T0Wbej7eRmL5cWfwEgqXnmjQp3zaJTshdRW/qC2ZQ==}
+    optional: true
 
   registry.nlark.com/cachedir/2.2.0:
     resolution: {integrity: sha1-Ga+kMF4F155BdWaILgyPlg9i/w4=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/cachedir/download/cachedir-2.2.0.tgz}
@@ -148,30 +181,6 @@ packages:
     name: '@commitlint/execute-rule'
     version: 16.2.1
     engines: {node: '>=v12'}
-    dev: true
-    optional: true
-
-  registry.npmmirror.com/@commitlint/load/16.2.3:
-    resolution: {integrity: sha512-Hb4OUlMnBUK6UxJEZ/VJ5k0LocIS7PtEMbRXEAA7eSpOgORIFexC4K/RaRpVd5UTtu3M0ST3ddPPijF9rdW6nw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@commitlint/load/-/load-16.2.3.tgz}
-    name: '@commitlint/load'
-    version: 16.2.3
-    engines: {node: '>=v12'}
-    requiresBuild: true
-    dependencies:
-      '@commitlint/config-validator': registry.npmmirror.com/@commitlint/config-validator/16.2.1
-      '@commitlint/execute-rule': registry.npmmirror.com/@commitlint/execute-rule/16.2.1
-      '@commitlint/resolve-extends': registry.npmmirror.com/@commitlint/resolve-extends/16.2.1
-      '@commitlint/types': registry.npmmirror.com/@commitlint/types/16.2.1
-      '@types/node': registry.npmmirror.com/@types/node/17.0.23
-      chalk: registry.npmmirror.com/chalk/4.1.2
-      cosmiconfig: registry.npmmirror.com/cosmiconfig/7.0.1
-      cosmiconfig-typescript-loader: registry.npmmirror.com/cosmiconfig-typescript-loader/1.0.6_7536da6021bfbb65f034b881e81b4dd3
-      lodash: registry.npmmirror.com/lodash/4.17.21
-      resolve-from: registry.npmmirror.com/resolve-from/5.0.0
-      typescript: registry.npmmirror.com/typescript/4.6.2
-    transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
     dev: true
     optional: true
 
@@ -731,7 +740,7 @@ packages:
       longest: registry.npmmirror.com/longest/2.0.1
       word-wrap: registry.npmmirror.com/word-wrap/1.2.3
     optionalDependencies:
-      '@commitlint/load': registry.npmmirror.com/@commitlint/load/16.2.3
+      '@commitlint/load': 16.2.3
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -750,7 +759,7 @@ packages:
       longest: registry.npmmirror.com/longest/2.0.1
       word-wrap: registry.npmmirror.com/word-wrap/1.2.3
     optionalDependencies:
-      '@commitlint/load': registry.npmmirror.com/@commitlint/load/16.2.3
+      '@commitlint/load': 16.2.3
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -1366,7 +1375,7 @@ packages:
     name: jsonfile
     version: 4.0.0
     optionalDependencies:
-      graceful-fs: registry.npmmirror.com/graceful-fs/4.2.9
+      graceful-fs: 4.2.9
     dev: true
 
   registry.npmmirror.com/jsonfile/6.1.0:
@@ -1376,7 +1385,7 @@ packages:
     dependencies:
       universalify: registry.npmmirror.com/universalify/2.0.0
     optionalDependencies:
-      graceful-fs: registry.npmmirror.com/graceful-fs/4.2.9
+      graceful-fs: 4.2.9
     dev: false
 
   registry.npmmirror.com/lines-and-columns/1.2.4:
