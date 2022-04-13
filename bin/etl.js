@@ -21,11 +21,14 @@ program
   .option('-e, --empty', 'delete all addresses')
   .option('-d, --derive', 'export all addresses to the target file')
   .option('-i, --init <filePath>', 'insert addresses to local')
+  .option('-m, --modify', 'modify name or address')
   .option('--directory', 'set custom filepath')
 
 program.parse(process.argv)
 
-const { open, add, remove, list, check, empty, derive, init, directory } = program.opts()
+const {
+  open, add, remove, list, check, empty, derive, init, directory, modify
+} = program.opts()
 
 // open address
 if (open) {
@@ -157,6 +160,59 @@ if (init) {
         })
       }, true)
     }
+  })
+}
+
+// modify name or address
+if (modify) {
+  getAddresses(data => {
+    const originData = JSON.parse(data || '{}')
+    const choices = Object.keys(originData)
+    promptCreator([
+      {
+        type: 'list',
+        name: 'name',
+        message: 'Which address do you wanna modify?',
+        choices,
+        default: 0
+      }, {
+        type: 'list',
+        name: 'type',
+        message: 'What do you wanna change?',
+        choices: ['name', 'address'],
+        default: 'name'
+      }, {
+        type: 'input',
+        name: 'content',
+        message: 'Please enter what you wanna override',
+        validate: answer => {
+          if (!(answer.trim())) {
+            return 'The name or address shouldn\'t be empty!'
+          }
+          return true
+        }
+      }
+    ], answer => {
+      const { name, type, content } = answer
+      let messages = {}
+      if (type === 'name') {
+        originData[content] = originData[name]
+
+        delete originData[name]
+
+        messages = {
+          errorMsg: 'Failed to modify the name!',
+          successMsg: `Name modified!`
+        }
+      } else {
+        originData[name] = content
+        messages = {
+          errorMsg: 'Failed to modify the address!',
+          successMsg: `Address modified!`
+        }
+      }
+      addAddresses(originData, messages)
+    })
   })
 }
 

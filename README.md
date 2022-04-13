@@ -5,7 +5,7 @@
 <p align="center">Provide some efficient tools to improve your efficiency.</p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/-v0.1.10-yellow">
+  <img src="https://img.shields.io/badge/-v0.1.11-yellow">
   <img src="https://img.shields.io/badge/node-v14.17.0%2B-green">
 </p>
 
@@ -33,6 +33,7 @@ Options:
   -e, --empty                delete all addresses
   -d, --derive               export all addresses to the target file
   -i, --init <filePath>      insert addresses to local
+  -m, --modify               modify name or address
   --directory                set custom filepath
   -h, --help                 display help for command
 ```
