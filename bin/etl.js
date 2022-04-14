@@ -2,12 +2,15 @@
 const fs = require('fs')
 const path = require('path')
 const dotenv = require('dotenv')
+const { version } = require('../package.json')
 const { program } = require('../src/utils/programInit')
 const { jumpUrl, getAddresses, addAddresses, promptCreator } = require('../src/utils/etl')
 const { successHandler, errorHandler } = require('../src/utils/common')
 const dotenvPath = path.join(__dirname, '../.env')
 
 dotenv.config({ path: dotenvPath })
+
+program.version(version, '-v, --version')
 
 /**
  * arguments defination
