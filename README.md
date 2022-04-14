@@ -34,6 +34,7 @@ Options:
   -e, --empty                delete all addresses
   -d, --derive               export all addresses to the target file
   -i, --init <filePath>      insert addresses to local
+  -m, --modify               modify name or address
   --directory                set custom filepath
   -h, --help                 display help for command
 ```
