@@ -5,7 +5,7 @@
 <p align="center">Provide some efficient tools to improve your efficiency.</p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/-v0.1.11-yellow">
+  <img src="https://img.shields.io/badge/-v0.1.12-yellow">
   <img src="https://img.shields.io/badge/node-v14.17.0%2B-green">
 </p>
 
@@ -25,6 +25,7 @@ npm i -g efficient-tools
 Usage: etl [options]
 
 Options:
+  -v, --version              output the version number
   -o, --open <key>           open an address
   -a, --add <address> [key]  add an address
   -r, --remove <key...>      remove an address
