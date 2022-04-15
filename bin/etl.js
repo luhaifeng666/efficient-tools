@@ -4,7 +4,7 @@ const path = require('path')
 const dotenv = require('dotenv')
 const { version } = require('../package.json')
 const { program } = require('../src/utils/programInit')
-const { jumpUrl, getAddresses, addAddresses, promptCreator } = require('../src/utils/etl')
+const { jumpUrl, getAddresses, addAddresses, promptCreator, BASE_URL } = require('../src/utils/etl')
 const { successHandler, errorHandler } = require('../src/utils/common')
 const dotenvPath = path.join(__dirname, '../.env')
 
@@ -25,12 +25,13 @@ program
   .option('-d, --derive', 'export all addresses to the target file')
   .option('-i, --init <filePath>', 'insert addresses to local')
   .option('-m, --modify', 'modify name or address')
+  .option('-w, --where', 'show the path of the configuration file')
   .option('--directory', 'set custom filepath')
 
 program.parse(process.argv)
 
 const {
-  open, add, remove, list, check, empty, derive, init, directory, modify
+  open, add, remove, list, check, empty, derive, init, directory, modify, where
 } = program.opts()
 
 // open address
@@ -247,3 +248,6 @@ if (directory) {
     })
   })
 }
+
+// show the path of the configuration file
+where && successHandler(`The configuration filepath is: ${BASE_URL}`)

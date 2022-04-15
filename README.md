@@ -5,7 +5,7 @@
 <p align="center">Provide some efficient tools to improve your efficiency.</p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/-v0.1.12-yellow">
+  <img src="https://img.shields.io/badge/-v0.1.13-yellow">
   <img src="https://img.shields.io/badge/node-v14.17.0%2B-green">
 </p>
 
@@ -35,6 +35,7 @@ Options:
   -d, --derive               export all addresses to the target file
   -i, --init <filePath>      insert addresses to local
   -m, --modify               modify name or address
+  -w, --where                show the path of the configuration file
   --directory                set custom filepath
   -h, --help                 display help for command
 ```

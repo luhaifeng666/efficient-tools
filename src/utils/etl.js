@@ -14,6 +14,7 @@ dotenv.config({ path: path.join(__dirname, '../../.env') })
 const { HOME, ETL_DIRECTORY } = process.env
 
 const BASE_URL = path.join(ETL_DIRECTORY || HOME, '/etl.json')
+module.exports.BASE_URL = BASE_URL
 
 /**
  * jumpUrl
