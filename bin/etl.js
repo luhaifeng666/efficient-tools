@@ -18,7 +18,7 @@ program.version(version, '-v, --version')
 program
   .option('-o, --open <key>', 'open an address')
   .option('-a, --add <address> [key]', 'add an address')
-  .option('-r, --remove <key...>', 'remove an address')
+  .option('-r, --remove <key...>', 'remove addresses')
   .option('-l, --list', 'show all addresses')
   .option('-c, --check <key>', 'show an address')
   .option('-e, --empty', 'delete all addresses')
