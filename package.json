@@ -2,12 +2,13 @@
 	"name": "efficient-tools",
 	"author": "luhaifeng",
 	"description": "Provide some efficient tools to improve your efficiency.",
-	"version": "0.1.15",
+	"version": "0.2.0-beta.0",
 	"main": "index.js",
 	"repository": "https://github.com/luhaifeng666/efficient-tools",
 	"homepage": "https://github.com/luhaifeng666/efficient-tools",
 	"bin": {
-		"etl": "bin/etl.js"
+		"etl": "bin/etl.js",
+		"etd": "bin/etd.js"
 	},
 	"scripts": {
 		"ca": "git add -A && git-cz -av",
@@ -23,7 +24,9 @@
 	],
 	"license": "ISC",
 	"dependencies": {
+		"axios": "^0.26.1",
 		"commander": "^9.1.0",
+		"crypto-js": "^4.1.1",
 		"dotenv": "^16.0.0",
 		"inquirer": "^8.2.0",
 		"zx": "^4.2.0"

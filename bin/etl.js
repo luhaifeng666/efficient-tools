@@ -1,4 +1,10 @@
 #! /usr/bin/env node
+
+/**
+ * efficient-tools-link
+ * A tool to help you open a link quickly.
+ */
+
 const fs = require('fs')
 const path = require('path')
 const dotenv = require('dotenv')
