@@ -39,3 +39,19 @@ Options:
   --directory                set custom filepath
   -h, --help                 display help for command
 ```
+
+<h2 align="center">ET-Dictionary</h2>
+
+<p align="center">A tool for translation.</p>
+
+```
+Usage: etd [options]
+
+Options:
+  -v, --version    output the version number
+  -c, --config     add your appId and secret
+  -l, --language   list all supported languages
+  -t, --translate  translate
+  -s, --set        from A to B
+  -h, --help       display help for command
+```
