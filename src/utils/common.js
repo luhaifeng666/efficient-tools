@@ -5,7 +5,7 @@ const { readFile, writeFile } = require('fs')
 const dotenv = require('dotenv')
 const path = require('path')
 
-const BASE_URL = path.join(process.cwd(), '.env')
+const BASE_URL = path.join(__dirname, '../../.env')
 
 /**
  * error handler
