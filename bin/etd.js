@@ -12,7 +12,8 @@ const { writeFile } = require('fs')
 const { version } = require('../package.json')
 const { program } = require('../src/utils/programInit')
 const { promptCreator } = require('../src/utils/etl')
-const { successHandler, errorHandler } = require('../src/utils/common')
+const { successHandler, errorHandler, handleDotenv, handleDotenvCheck } = require('../src/utils/common')
+const { APP_ID, SECRET_KEY, LANGUAGES } = require('../src/constants/index.js')
 
 const dotenvPath = path.join(__dirname, '../.env')
 dotenv.config({ path: dotenvPath })
@@ -40,8 +41,8 @@ function handleTranslate (q) {
   const key = process.env.SECRET_KEY
   const salt = new Date().getTime()
   const curtime = Math.round(new Date().getTime() / 1000)
-  const from = 'zh-CHS'
-  const to = 'en'
+  const from = process.env.FROM || 'zh-CHS'
+  const to = process.env.TO || 'en'
   const str1 = appKey + truncate(q) + salt + curtime + key
   const sign = CryptoJS.SHA256(str1).toString(CryptoJS.enc.Hex)
 
@@ -51,7 +52,8 @@ function handleTranslate (q) {
     params: { q, appKey, salt, from, to, sign, curtime, signType: 'v3' }
   })
   .then(function (response) {
-    console.log(response)
+    const { translation } = response.data
+    successHandler(translation).toString()
   })
   .catch(function (error) {
     errorHandler(error.message || 'No results!')
@@ -68,23 +70,63 @@ if (config) {
   promptCreator([
     {
       type: 'input',
-      name: 'appid',
+      name: 'APP_ID',
       message: 'Please enter your appId'
     }, {
       type: 'input',
-      name: 'secretKey',
+      name: 'SECRET_KEY',
       message: 'Please enter your secret-key'
     },
   ], answer => {
-    console.log(answer)
+    handleDotenv(answer)
   })
 }
 
 // list all supported languages
-if (language) {}
+if (language) {
+  console.table(LANGUAGES)
+}
 
 // translate
-if (translate) {}
+if (translate) {
+  handleDotenvCheck([APP_ID, SECRET_KEY], res => {
+    if (res) {
+      promptCreator([
+        {
+          type: 'input',
+          name: 'question',
+          message: 'What do you wanna translate?'
+        }
+      ], answer => {
+        handleTranslate(answer.question)
+      })
+    } else {
+      errorHandler('APP_ID or SECRET_KEY shouldn\'t be empty! Please config them first by "etd -c/--config" command.')
+    }
+  })
+}
 
 // set
-if (set) {}
+if (set) {
+  const choices = Object.keys(LANGUAGES).map(key => `${key}/${LANGUAGES[key]}`)
+  promptCreator([
+    {
+      type: 'list',
+      name: 'FROM',
+      message: 'Which kind of language do you wanna translate?',
+      choices,
+      default: 0
+    }, {
+      type: 'list',
+      name: 'TO',
+      message: 'What language do you want to translate into?',
+      choices,
+      default: 0
+    }
+  ], answer => {
+    handleDotenv(Object.keys(answer).reduce((obj, key) => ({
+      ...obj,
+      [key]: answer[key].split('/')[1]
+    }), {}))
+  })
+}
