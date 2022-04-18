@@ -1,8 +1,10 @@
 lockfileVersion: 5.3
 
 specifiers:
+  axios: ^0.26.1
   commander: ^9.1.0
   commitizen: ^4.2.3
+  crypto-js: ^4.1.1
   cz-conventional-changelog: ^3.3.0
   dotenv: ^16.0.0
   husky: ^5.0.9
@@ -11,7 +13,9 @@ specifiers:
   zx: ^4.2.0
 
 dependencies:
+  axios: 0.26.1
   commander: registry.npmmirror.com/commander/9.1.0
+  crypto-js: 4.1.1
   dotenv: 16.0.0
   inquirer: registry.npmmirror.com/inquirer/8.2.2
   zx: registry.npmmirror.com/zx/4.3.0
@@ -46,9 +50,31 @@ packages:
     dev: true
     optional: true
 
+  /axios/0.26.1:
+    resolution: {integrity: sha512-fPwcX4EvnSHuInCMItEhAGnaSEXRBjtzh9fOtsE6E1G6p7vl7edEeZe11QHf18+6+9gR5PbKV/sGKNaD8YaMeA==}
+    dependencies:
+      follow-redirects: 1.14.9
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
+  /crypto-js/4.1.1:
+    resolution: {integrity: sha512-o2JlM7ydqd3Qk9CA0L4NL6mTzU2sdx96a+oOfPu8Mkl/PK51vSyoi8/rQ8NknZtk44vq15lmhAj9CIAGwgeWKw==}
+    dev: false
+
   /dotenv/16.0.0:
     resolution: {integrity: sha512-qD9WU0MPM4SWLPJy/r2Be+2WgQj8plChsyrCNQzW/0WjvcJQiKQJ9mH3ZgB3fxbUUxgc/11ZJ0Fi5KiimWGz2Q==}
     engines: {node: '>=12'}
+    dev: false
+
+  /follow-redirects/1.14.9:
+    resolution: {integrity: sha512-MQDfihBQYMcyy5dhRDJUHcw7lb2Pv/TuE6xP1vyraLukNDHKbDxDNaOE3NbCAdKQApno+GPRyo1YAp89yCjK4w==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
     dev: false
 
   /graceful-fs/4.2.9:

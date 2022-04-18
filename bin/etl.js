@@ -1,11 +1,17 @@
 #! /usr/bin/env node
+
+/**
+ * efficient-tools-link
+ * A tool to help you open a link quickly.
+ */
+
 const fs = require('fs')
 const path = require('path')
 const dotenv = require('dotenv')
 const { version } = require('../package.json')
 const { program } = require('../src/utils/programInit')
 const { jumpUrl, getAddresses, addAddresses, promptCreator, BASE_URL } = require('../src/utils/etl')
-const { successHandler, errorHandler } = require('../src/utils/common')
+const { successHandler, errorHandler, handleDotenv } = require('../src/utils/common')
 const dotenvPath = path.join(__dirname, '../.env')
 
 dotenv.config({ path: dotenvPath })
@@ -49,12 +55,7 @@ if (open) {
 // print list
 if (list) {
   getAddresses(data => {
-    const originData = JSON.parse(data)
-    const addressList = Object.keys(originData).reduce((list, key) => [
-      ...list,
-      [key, originData[key]]
-    ], [])
-    console.table(addressList)
+    console.table(JSON.parse(data))
   })
 }
 
@@ -225,7 +226,7 @@ if (directory) {
   promptCreator([
     {
       type: 'input',
-      name: 'directory',
+      name: 'ETL_DIRECTORY',
       message: 'In which directory are the addresses stored?',
       validate: answer => {
         if (!(answer.trim())) {
@@ -239,13 +240,7 @@ if (directory) {
       }
     }
   ], answer => {
-    fs.writeFile(dotenvPath, `ETL_DIRECTORY=${answer.directory}`, err => {
-      if (err) {
-        errorHandler(`${errorMsg}${err}`)
-      } else {
-        successHandler(`Setup completed! The addresses will be saved to ${answer.directory}`)
-      }
-    })
+    handleDotenv(answer, `Setup completed! The addresses will be saved to ${answer.ETL_DIRECTORY}`)
   })
 }
 
