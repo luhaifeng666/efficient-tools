@@ -53,7 +53,7 @@ function handleTranslate (q) {
   })
   .then(function (response) {
     const { translation } = response.data
-    successHandler(translation).toString()
+    successHandler(translation.toString())
   })
   .catch(function (error) {
     errorHandler(error.message || 'No results!')
