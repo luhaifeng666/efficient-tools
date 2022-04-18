@@ -5,7 +5,7 @@
 <p align="center">Provide some efficient tools to improve your efficiency.</p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/-v0.1.15-yellow">
+  <img src="https://img.shields.io/badge/-v0.2.0-yellow">
   <img src="https://img.shields.io/badge/node-v14.17.0%2B-green">
 </p>
 
@@ -38,4 +38,20 @@ Options:
   -w, --where                show the path of the configuration file
   --directory                set custom filepath
   -h, --help                 display help for command
+```
+
+<h2 align="center">ET-Dictionary</h2>
+
+<p align="center">A tool for translation.</p>
+
+```
+Usage: etd [options]
+
+Options:
+  -v, --version    output the version number
+  -c, --config     add your appId and secret
+  -l, --language   list all supported languages
+  -t, --translate  translate
+  -s, --set        from A to B
+  -h, --help       display help for command
 ```
