@@ -52,8 +52,27 @@ function handleTranslate (q) {
     params: { q, appKey, salt, from, to, sign, curtime, signType: 'v3' }
   })
   .then(function (response) {
-    const { translation } = response.data
-    successHandler(translation.toString())
+    const { query, translation, web, basic } = response.data
+    let res = `${query}: ${translation.toString()}`
+    if (basic) {
+      const { FROM, TO } = process.env
+      if (FROM === 'en' && TO === 'zh-CHS') {
+        res = `${query}: ${basic['us-phonetic'] ? `us: [${basic['us-phonetic']}]` : ''} ${basic['uk-phonetic'] ? `uk: [${basic['uk-phonetic']}]`  : ''}
+${basic.explains.toString()}`
+      } else if (FROM === 'zh-CHS' && TO === 'en') {
+        res = `${query}: [${basic.phonetic || ''}]
+${basic.explains.toString()}`
+      }
+    }
+    successHandler(`------------------Translation Result------------------
+${res}
+`)
+    if (web) {
+      successHandler(`------------------Other Explanations------------------`)
+      web.forEach(item => {
+        successHandler(`${item.key} -> ${item.value.toString()}`)
+      })
+    }
   })
   .catch(function (error) {
     errorHandler(error.message || 'No results!')
