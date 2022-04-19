@@ -11,7 +11,7 @@ const dotenv = require('dotenv')
 const { version } = require('../package.json')
 const { program } = require('../src/utils/programInit')
 const { jumpUrl, getAddresses, addAddresses, promptCreator, BASE_URL } = require('../src/utils/etl')
-const { successHandler, errorHandler, handleDotenv } = require('../src/utils/common')
+const { successHandler, errorHandler, handleDotenv, notEmpty } = require('../src/utils/common')
 const dotenvPath = path.join(__dirname, '../.env')
 
 dotenv.config({ path: dotenvPath })
@@ -190,12 +190,7 @@ if (modify) {
         type: 'input',
         name: 'content',
         message: 'Please enter what you wanna override',
-        validate: answer => {
-          if (!(answer.trim())) {
-            return 'The name or address shouldn\'t be empty!'
-          }
-          return true
-        }
+        validate: notEmpty('The name or address shouldn\'t be empty!')
       }
     ], answer => {
       const { name, type, content } = answer

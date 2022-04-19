@@ -12,7 +12,7 @@ const { writeFile } = require('fs')
 const { version } = require('../package.json')
 const { program } = require('../src/utils/programInit')
 const { promptCreator } = require('../src/utils/etl')
-const { successHandler, errorHandler, handleDotenv, handleDotenvCheck } = require('../src/utils/common')
+const { successHandler, errorHandler, handleDotenv, handleDotenvCheck, notEmpty } = require('../src/utils/common')
 const { APP_ID, SECRET_KEY, LANGUAGES } = require('../src/constants/index.js')
 
 const dotenvPath = path.join(__dirname, '../.env')
@@ -71,11 +71,13 @@ if (config) {
     {
       type: 'input',
       name: 'APP_ID',
-      message: 'Please enter your appId'
+      message: 'Please enter your appId',
+      validate: notEmpty('The appId shouldn\'t be empty!')
     }, {
       type: 'input',
       name: 'SECRET_KEY',
-      message: 'Please enter your secret-key'
+      message: 'Please enter your secret-key',
+      validate: notEmpty('The secret-key shouldn\'t be empty!')
     },
   ], answer => {
     handleDotenv(answer)
@@ -95,13 +97,14 @@ if (translate) {
         {
           type: 'input',
           name: 'question',
-          message: 'What do you wanna translate?'
+          message: 'What do you wanna translate?',
+          validate: notEmpty('The translation content shouldn\'t be empty！')
         }
       ], answer => {
         handleTranslate(answer.question)
       })
     } else {
-      errorHandler('APP_ID or SECRET_KEY shouldn\'t be empty! Please config them first by "etd -c/--config" command.')
+      errorHandler('appId or secret-key shouldn\'t be empty! Please config them first by "etd -c/--config" command.')
     }
   })
 }
