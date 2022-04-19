@@ -79,10 +79,24 @@ const handleDotenvCheck = (keys, cb) => {
   }
 }
 
+/**
+ * inquirer validate
+ * @param {*} msg 
+ */
+const notEmpty = msg => {
+  return answer => {
+    if (!(answer.trim())) {
+      return msg
+    }
+    return true
+  }
+}
+
 module.exports = {
   errorHandler,
   successHandler,
   warningHandler,
   handleDotenv,
-  handleDotenvCheck
+  handleDotenvCheck,
+  notEmpty
 }
