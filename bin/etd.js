@@ -52,8 +52,16 @@ function handleTranslate (q) {
     params: { q, appKey, salt, from, to, sign, curtime, signType: 'v3' }
   })
   .then(function (response) {
-    const { translation } = response.data
-    successHandler(translation.toString())
+    const { translation, web } = response.data
+    successHandler(`Translation result: ${translation.toString()}`)
+    if (web) {
+      successHandler(`
+------------------Other Explanations------------------
+      `)
+      web.forEach(item => {
+        successHandler(`${item.key} -> ${item.value.toString()}`)
+      })
+    }
   })
   .catch(function (error) {
     errorHandler(error.message || 'No results!')
