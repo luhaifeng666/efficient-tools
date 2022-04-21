@@ -8,6 +8,7 @@
 const fs = require('fs')
 const path = require('path')
 const dotenv = require('dotenv')
+const qrcode = require('qrcode-terminal')
 const { version } = require('../package.json')
 const { program } = require('../src/utils/programInit')
 const { jumpUrl, getAddresses, addAddresses, promptCreator, BASE_URL } = require('../src/utils/etl')
@@ -103,7 +104,9 @@ if (remove) {
 // check address
 if (check) {
   getAddresses(data => {
-    successHandler(`${check} address is: ${JSON.parse(data)[check]}`)
+    successHandler(`The ${check} address is: ${JSON.parse(data)[check]}.
+You can use your mobile device to scan the QR code below to browse`)
+    qrcode.generate(JSON.parse(data)[check], {small: true})
   })
 }
 
