@@ -53,6 +53,6 @@ Options:
   -l, --language   list all supported languages
   -t, --translate  translate
   -s, --set        set translation rule(from A to B)
-  -r, --rule        print current translation rule
+  -r, --rule       print current translation rule
   -h, --help       display help for command
 ```
