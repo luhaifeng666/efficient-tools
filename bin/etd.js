@@ -8,7 +8,6 @@ const CryptoJS = require('crypto-js')
 const dotenv = require('dotenv')
 const path = require('path')
 const axios = require('axios')
-const { writeFile } = require('fs')
 const { version } = require('../package.json')
 const { program } = require('../src/utils/programInit')
 const { promptCreator } = require('../src/utils/etl')
@@ -37,13 +36,29 @@ function truncate (q) {
   return q.substring(0, 10) + len + q.substring(len - 10, len)
 }
 
+// get language key/name map
+function getLanguageMap () {
+  return Object.keys(LANGUAGES).reduce((obj, key) => ({
+    ...obj,
+    [LANGUAGES[key]]: key
+  }), {})
+}
+
+// get from & to
+function getFromAndTo () {
+  const from = process.env.FROM || 'zh-CHS'
+  const to = process.env.TO || 'en'
+  return {
+    from, to
+  }
+}
+
 function handleTranslate (q) {
   const appKey = process.env.APP_ID
   const key = process.env.SECRET_KEY
   const salt = new Date().getTime()
   const curtime = Math.round(new Date().getTime() / 1000)
-  const from = process.env.FROM || 'zh-CHS'
-  const to = process.env.TO || 'en'
+  const { from, to } = getFromAndTo()
   const str1 = appKey + truncate(q) + salt + curtime + key
   const sign = CryptoJS.SHA256(str1).toString(CryptoJS.enc.Hex)
 
@@ -132,19 +147,21 @@ if (translate) {
 // set
 if (set) {
   const choices = Object.keys(LANGUAGES).map(key => `${key}/${LANGUAGES[key]}`)
+  const { from, to } = getFromAndTo()
+  const languageMap = getLanguageMap()
   promptCreator([
     {
       type: 'list',
       name: 'FROM',
       message: 'Which kind of language do you wanna translate?',
       choices,
-      default: 0
+      default: choices.indexOf(`${languageMap[from]}/${from}`)
     }, {
       type: 'list',
       name: 'TO',
       message: 'What language do you want to translate into?',
       choices,
-      default: 0
+      default: choices.indexOf(`${languageMap[to]}/${to}`)
     }
   ], answer => {
     handleDotenv(Object.keys(answer).reduce((obj, key) => ({
@@ -156,7 +173,7 @@ if (set) {
 
 // print current translation rule
 if (rule) {
-  const from = process.env.FROM || 'zh-CHS'
-  const to = process.env.TO || 'en'
-  successHandler(`The current translation rule is: from ${from} to ${to}.`)
+  const { from, to } = getFromAndTo()
+  const languageMap = getLanguageMap()
+  successHandler(`The current translation rule is: from ${languageMap[from]}/${from} to ${languageMap[to]}/${to}.`)
 }
