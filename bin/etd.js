@@ -24,11 +24,12 @@ program
   .option('-c, --config', 'add your appId and secret')
   .option('-l, --language', 'list all supported languages')
   .option('-t, --translate', 'translate')
-  .option('-s, --set', 'from A to B')
+  .option('-s, --set', 'set translation rule(from A to B)')
+  .option('-r, --rule', 'print current translation rule')
 
 program.parse(process.argv)
 
-const { config, language, translate, set } = program.opts()
+const { config, language, translate, set, rule } = program.opts()
 
 function truncate (q) {
   const len = q.length
@@ -151,4 +152,11 @@ if (set) {
       [key]: answer[key].split('/')[1]
     }), {}))
   })
+}
+
+// print current translation rule
+if (rule) {
+  const from = process.env.FROM || 'zh-CHS'
+  const to = process.env.TO || 'en'
+  successHandler(`The current translation rule is: from ${from} to ${to}.`)
 }
