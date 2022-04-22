@@ -5,7 +5,7 @@
 <p align="center">Provide some efficient tools to improve your efficiency.</p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/-v0.2.12-yellow">
+  <img src="https://img.shields.io/badge/-v0.2.13-yellow">
   <img src="https://img.shields.io/badge/node-v14.17.0%2B-green">
 </p>
 
@@ -52,6 +52,7 @@ Options:
   -c, --config     add your appId and secret
   -l, --language   list all supported languages
   -t, --translate  translate
-  -s, --set        from A to B
+  -s, --set        set translation rule(from A to B)
+  -r, --rule        print current translation rule
   -h, --help       display help for command
 ```
