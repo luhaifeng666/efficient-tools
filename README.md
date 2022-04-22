@@ -30,7 +30,7 @@ Options:
   -a, --add <address> [key]  add an address
   -r, --remove <key...>      remove an address
   -l, --list                 show all addresses
-  -c, --check <key>          show an address
+  -c, --check <key>          show an address and its QRcode
   -e, --empty                delete all addresses
   -d, --derive               export all addresses to the target file
   -i, --init <filePath>      insert addresses to local
