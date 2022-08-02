@@ -1,8 +1,8 @@
 <!--
  * @Author: haifeng.lu haifeng.lu@ly.com
  * @Date: 2022-05-23 10:43:31
- * @LastEditors: haifeng.lu
- * @LastEditTime: 2022-08-02 18:57:19
+ * @LastEditors: luhaifeng666
+ * @LastEditTime: 2022-08-02 19:00:13
  * @Description: 
 -->
 <p  align="center"><img src="./src/public/images/scratch.svg" /></p>
@@ -86,7 +86,7 @@ Options:
 
 <p align="center">A tool for you to compress images by <a href="https://tinypng.com/">Tiny png API</a>.</p>
 
-> Before use it, you need to browse to [https://tinypng.com/developers](https://tinypng.com/developers) to get your `API KEY` first!
+> Before using it, you need to browse to [https://tinypng.com/developers](https://tinypng.com/developers) to get your `API KEY` first!
 
 You can choose any `WebP, JPEG(JPG) or PNG` image to compress it.
 
