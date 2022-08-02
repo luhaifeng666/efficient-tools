@@ -2,7 +2,7 @@
  * @Author: haifeng.lu haifeng.lu@ly.com
  * @Date: 2022-05-23 10:43:31
  * @LastEditors: haifeng.lu
- * @LastEditTime: 2022-08-02 10:16:33
+ * @LastEditTime: 2022-08-02 18:57:19
  * @Description: 
 -->
 <p  align="center"><img src="./src/public/images/scratch.svg" /></p>
@@ -22,9 +22,23 @@
 npm i -g efficient-tools
 ```
 
-# Configuration
-
 # Usage
+
+<h2 align="center">ET-Config</h2>
+
+<p align="center">A command which used to export and init the ET's configuration.</p>
+
+After updating the ET package, the configurations that configured before always gone. But now, you can backup the configurations by `etc -e` command before updating the package, and then, according to the `etc -i` command to restore them after updating.🥳🥳
+
+```
+Usage: etc [options]
+
+Options:
+  -v, --version  output the version number
+  -i, --init     init ET configuration
+  -e, --export   export ET configuration
+  -h, --help     display help for command
+```
 
 <h2 align="center">ET-Link</h2>
 
@@ -66,4 +80,22 @@ Options:
   -s, --set        set translation rule(from A to B)
   -r, --rule       print current translation rule
   -h, --help       display help for command
+```
+
+<h2 align="center">ET-Pictures</h2>
+
+<p align="center">A tool for you to compress images by <a href="https://tinypng.com/">Tiny png API</a>.</p>
+
+> Before use it, you need to browse to [https://tinypng.com/developers](https://tinypng.com/developers) to get your `API KEY` first!
+
+You can choose any `WebP, JPEG(JPG) or PNG` image to compress it.
+
+```
+Usage: etp [options]
+
+Options:
+  -v, --version   output the version number
+  -s, --set       set your API key
+  -c, --compress  image compression
+  -h, --help      display help for command
 ```

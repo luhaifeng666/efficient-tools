@@ -124,7 +124,7 @@ if (compress) {
           default: 'local-images'
         }
       ], answer => {
-        // process accroding to selection
+        // processording to selection
         switch (answer.type) {
           case 'local-images':
             promptCreator([
