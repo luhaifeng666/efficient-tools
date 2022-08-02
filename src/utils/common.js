@@ -31,8 +31,8 @@ const errorHandler = msg => {
   console.log(chalk.greenBright(msg))
 }
 
-const getDotenvContent = cb => {
-  readFile(BASE_URL, { encoding: 'utf-8'}, (err, data) => {
+const getDotenvContent = (baseUrl, cb) => {
+  readFile(baseUrl, { encoding: 'utf-8'}, (err, data) => {
     try {
       if (err) throw err
       const buf = Buffer.from(data)
@@ -48,12 +48,12 @@ const getDotenvContent = cb => {
  * @param {*} config 
  * @param {*} msg 
  */
-const handleDotenv = (config, msg = 'Config successfully!') => {
-  getDotenvContent(res => {
+const handleDotenv = (config, msg = 'Config successfully!', filepath = BASE_URL) => {
+  getDotenvContent(filepath, res => {
     const content = { ...res, ...config }
     const envConfig = Object.keys(content).reduce((str, key) => `${str}
 ${key}=${content[key]}`.trim(), '')
-    writeFile(BASE_URL, envConfig, err => {
+    writeFile(filepath, envConfig, err => {
       if (err) {
         errorHandler(err.message)
       } else {
@@ -68,9 +68,9 @@ ${key}=${content[key]}`.trim(), '')
  * @param {*} keys 
  * @param {*} cb 
  */
-const handleDotenvCheck = (keys, cb) => {
+const handleDotenvCheck = (keys, cb, baseUrl = BASE_URL) => {
   if (Array.isArray(keys)) {
-    getDotenvContent(data => {
+    getDotenvContent(baseUrl, data=> {
       const res = keys.every(key => data[key])
       cb(res)
     })
@@ -92,11 +92,14 @@ const notEmpty = msg => {
   }
 }
 
+const promisify = handler => new Promise(handler)
+
 module.exports = {
   errorHandler,
   successHandler,
   warningHandler,
   handleDotenv,
   handleDotenvCheck,
-  notEmpty
+  notEmpty,
+  promisify
 }

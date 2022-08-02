@@ -1,3 +1,10 @@
+<!--
+ * @Author: haifeng.lu haifeng.lu@ly.com
+ * @Date: 2022-05-23 10:43:31
+ * @LastEditors: haifeng.lu
+ * @LastEditTime: 2022-08-02 10:16:33
+ * @Description: 
+-->
 <p  align="center"><img src="./src/public/images/scratch.svg" /></p>
 
 <h1 align="center">efficient-tools</h1>
@@ -14,6 +21,8 @@
 ```
 npm i -g efficient-tools
 ```
+
+# Configuration
 
 # Usage
 
@@ -44,6 +53,8 @@ Options:
 
 <p align="center">A tool for translation.</p>
 
+> TIP: Before using this plugin, you need to browse to [https://ai.youdao.com/#/](https://ai.youdao.com/#/) to register first!!
+
 ```
 Usage: etd [options]
 
@@ -53,6 +64,6 @@ Options:
   -l, --language   list all supported languages
   -t, --translate  translate
   -s, --set        set translation rule(from A to B)
-  -r, --rule        print current translation rule
+  -r, --rule       print current translation rule
   -h, --help       display help for command
 ```
