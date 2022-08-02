@@ -4,7 +4,7 @@
  * @Author: haifeng.lu haifeng.lu@ly.com
  * @Date: 2022-08-02 16:46:11
  * @LastEditors: luhaifeng666
- * @LastEditTime: 2022-08-02 19:23:19
+ * @LastEditTime: 2022-08-02 19:38:32
  * @Description: 
  */
 
@@ -69,7 +69,7 @@ if (init) {
       {
         type: 'input',
         name: 'backupPath',
-        message: 'Please type the .env.backup filepath:',
+        message: 'Please type the .env.backup filepath(without `.env.backup`):',
         validate: notEmpty('The .env.backup filepath is required.')
       }
     ] : [
@@ -85,7 +85,7 @@ if (init) {
         const { backupPath, attributes } = answer
         const successMsg = 'Initialization completed!'
         if (backupPath) {
-          await copyFile(backupPath, path.resolve(__dirname, '../', '.env'))
+          await copyFile(`${backupPath}/.env.backup`, path.resolve(__dirname, '../', '.env'))
           successHandler(successMsg)
         } else {
           promptCreator(choices.filter(
