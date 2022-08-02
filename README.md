@@ -1,3 +1,10 @@
+<!--
+ * @Author: haifeng.lu haifeng.lu@ly.com
+ * @Date: 2022-05-23 10:43:31
+ * @LastEditors: haifeng.lu
+ * @LastEditTime: 2022-08-02 10:16:33
+ * @Description: 
+-->
 <p  align="center"><img src="./src/public/images/scratch.svg" /></p>
 
 <h1 align="center">efficient-tools</h1>
@@ -14,6 +21,8 @@
 ```
 npm i -g efficient-tools
 ```
+
+# Configuration
 
 # Usage
 
@@ -43,6 +52,8 @@ Options:
 <h2 align="center">ET-Dictionary</h2>
 
 <p align="center">A tool for translation.</p>
+
+> TIP: Before using this plugin, you need to browse to [https://ai.youdao.com/#/](https://ai.youdao.com/#/) to register first!!
 
 ```
 Usage: etd [options]

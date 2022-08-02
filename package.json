@@ -8,7 +8,8 @@
 	"homepage": "https://github.com/luhaifeng666/efficient-tools",
 	"bin": {
 		"etl": "bin/etl.js",
-		"etd": "bin/etd.js"
+		"etd": "bin/etd.js",
+		"etp": "bin/etp.js"
 	},
 	"scripts": {
 		"ca": "git add -A && git-cz -av",
@@ -30,6 +31,7 @@
 		"dotenv": "^16.0.0",
 		"inquirer": "^8.2.0",
 		"qrcode-terminal": "^0.12.0",
+		"tinify": "^1.6.1",
 		"zx": "^4.2.0"
 	},
 	"devDependencies": {
