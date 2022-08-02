@@ -5,17 +5,16 @@
  * An English-Chinese translation dictionary
  */
 const CryptoJS = require('crypto-js')
-const dotenv = require('dotenv')
 const path = require('path')
 const axios = require('axios')
 const { version } = require('../package.json')
 const { program } = require('../src/utils/programInit')
 const { promptCreator } = require('../src/utils/etl')
 const { successHandler, errorHandler, handleDotenv, handleDotenvCheck, notEmpty } = require('../src/utils/common')
+const { dotenvInit, dotenvPath } = require('../src/utils/dotenvConfig')
 const { APP_ID, SECRET_KEY, LANGUAGES } = require('../src/constants/index.js')
 
-const dotenvPath = path.join(__dirname, '../.env')
-dotenv.config({ path: dotenvPath })
+dotenvInit()
 
 program.version(version, '-v, --version')
 
