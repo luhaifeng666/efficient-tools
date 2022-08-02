@@ -4,7 +4,7 @@
  * @Author: haifeng.lu haifeng.lu@ly.com
  * @Date: 2022-08-02 16:46:11
  * @LastEditors: haifeng.lu
- * @LastEditTime: 2022-08-02 17:58:50
+ * @LastEditTime: 2022-08-02 18:46:35
  * @Description: 
  */
 
@@ -37,7 +37,7 @@ if (init) {
       message: 'How to init the ET configuration?',
       choices: [
         {
-          name: 'Accroding to the .env.backup file',
+          name: 'According to the .env.backup file',
           value: 0
         }, {
           name: 'By setting attributes',
