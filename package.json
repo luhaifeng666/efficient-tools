@@ -7,6 +7,7 @@
 	"repository": "https://github.com/luhaifeng666/efficient-tools",
 	"homepage": "https://github.com/luhaifeng666/efficient-tools",
 	"bin": {
+    "etc": "bin/etc.js",
 		"etl": "bin/etl.js",
 		"etd": "bin/etd.js",
 		"etp": "bin/etp.js"

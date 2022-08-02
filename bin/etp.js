@@ -6,18 +6,17 @@
  * @Date: 2022/5/23
  */
 
-const dotenv = require('dotenv')
 const tinify = require('tinify')
 const path = require('path')
 const { readdir, mkdir } = require('fs/promises')
 const { version } = require('../package.json')
 const { program } = require('../src/utils/programInit')
 const { promptCreator } = require('../src/utils/etl')
+const { dotenvInit, dotenvPath } = require('../src/utils/dotenvConfig')
 const { successHandler, errorHandler, handleDotenv, handleDotenvCheck, notEmpty, promisify } = require('../src/utils/common')
 
 // dotenv configuration
-const dotenvPath = path.join(__dirname, '../.env')
-dotenv.config({ path: dotenvPath })
+dotenvInit()
 
 // exts
 const IMAGE_SUPPORT_EXTS = [
