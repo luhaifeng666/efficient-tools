@@ -12,10 +12,11 @@ const { readdir, mkdir } = require('fs/promises')
 const { version } = require('../package.json')
 const { program } = require('../src/utils/programInit')
 const { promptCreator } = require('../src/utils/etl')
-const { dotenvInit, dotenvPath } = require('../src/utils/dotenvConfig')
+const { dotenvInit } = require('../src/utils/dotenvConfig')
 const { successHandler, errorHandler, handleDotenv, handleDotenvCheck, notEmpty, promisify } = require('../src/utils/common')
 
 // dotenv configuration
+const dotenvPath = path.join(__dirname, '../.env')
 dotenvInit()
 
 // exts
