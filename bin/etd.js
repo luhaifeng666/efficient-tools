@@ -11,7 +11,7 @@ const { version } = require('../package.json')
 const { program } = require('../src/utils/programInit')
 const { promptCreator } = require('../src/utils/etl')
 const { successHandler, errorHandler, handleDotenv, handleDotenvCheck, notEmpty } = require('../src/utils/common')
-const { dotenvInit, dotenvPath } = require('../src/utils/dotenvConfig')
+const { dotenvInit } = require('../src/utils/dotenvConfig')
 const { APP_ID, SECRET_KEY, LANGUAGES } = require('../src/constants/index.js')
 
 dotenvInit()

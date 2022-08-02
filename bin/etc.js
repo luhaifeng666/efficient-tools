@@ -3,8 +3,8 @@
 /*
  * @Author: haifeng.lu haifeng.lu@ly.com
  * @Date: 2022-08-02 16:46:11
- * @LastEditors: haifeng.lu
- * @LastEditTime: 2022-08-02 18:46:35
+ * @LastEditors: luhaifeng666
+ * @LastEditTime: 2022-08-02 19:23:19
  * @Description: 
  */
 
@@ -12,10 +12,11 @@ const { copyFile } = require('fs/promises')
 const { version } = require('../package.json')
 const { program } = require('../src/utils/programInit')
 const { promptCreator } = require('../src/utils/etl')
-const { dotenvInit, dotenvPath } = require('../src/utils/dotenvConfig')
+const { dotenvInit } = require('../src/utils/dotenvConfig')
 const { successHandler, errorHandler, notEmpty, handleDotenv } = require('../src/utils/common')
 
 // dotenv configuration
+const dotenvPath = path.join(__dirname, '../.env')
 dotenvInit()
 
 program.version(version, '-v, --version')

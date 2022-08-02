@@ -7,15 +7,14 @@
 
 const fs = require('fs')
 const path = require('path')
-const dotenv = require('dotenv')
 const qrcode = require('qrcode-terminal')
 const { version } = require('../package.json')
 const { program } = require('../src/utils/programInit')
 const { jumpUrl, getAddresses, addAddresses, promptCreator, BASE_URL } = require('../src/utils/etl')
 const { successHandler, errorHandler, handleDotenv, notEmpty } = require('../src/utils/common')
-const dotenvPath = path.join(__dirname, '../.env')
+const { dotenvInit } = require('../src/utils/dotenvConfig')
 
-dotenv.config({ path: dotenvPath })
+dotenvInit()
 
 program.version(version, '-v, --version')
 
