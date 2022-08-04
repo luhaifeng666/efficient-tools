@@ -83,10 +83,12 @@ async function compressHandler(baseUrl, images, originBaseUrl) {
         resolve(source.toFile(`${dirname}/${name}`))
       }).then(() => {
         successHandler(`${imagePath} compression completed!`);
+      }).catch(e => {
+        errorHandler(e.message)
       })
     })
     if (children) {
-      await compressHandler(dirname, children, `${originBaseUrl}/${dir}`)
+      compressHandler(dirname, children, `${originBaseUrl}/${dir}`)
     }
   })
 }
@@ -123,8 +125,15 @@ if (compress) {
           message: 'Do you wanna compress local images or online images?',
           choices: ['local-images', 'online-images'],
           default: 'local-images'
+        },
+        {
+          type: 'input',
+          name: 'target',
+          message: 'Please type the output file path:',
+          default: path.resolve(BASE_URL, '..')
         }
       ], answer => {
+        const { target } = answer
         // processording to selection
         switch (answer.type) {
           case 'local-images':
@@ -153,10 +162,15 @@ if (compress) {
                 const images = await getAllImagesName(isDeep, pathname)
                 if (Object.keys(images).length) {
                   // create a new directory to store compressed images
-                  const baseUrl = path.resolve(pathname, `../`)
-                  await mkdir(`${baseUrl}/${dName}`)
+                  const targetDir = `${target}/${dName}`
+                  const message = `* Compression start! The output file path is ${targetDir} *`
+                  const startLine = new Array(message.length).fill('*').join('')
+                  await mkdir(targetDir)
+                  successHandler(startLine)
+                  successHandler(message)
+                  successHandler(startLine)
                   // compress images
-                  await compressHandler(`${baseUrl}/${dName}`, images, baseUrl)
+                  compressHandler(targetDir, images, path.resolve(target, '..'))
                 }
               } catch (e) {
                 errorHandler(e)
@@ -182,9 +196,11 @@ if (compress) {
               successHandler('Compressing...');
               promisify((resolve, reject) => {
                 const source = tinify.fromUrl(imageLink)
-                resolve(source.toFile(imageName))
+                resolve(source.toFile(`${target}/${imageName}`))
               }).then(() => {
-                successHandler('Compression completed!');
+                successHandler(`Compression completed! The compressed image is in ${target}.`);
+              }).catch(e => {
+                errorHandler(e.message)
               })
             })
             break

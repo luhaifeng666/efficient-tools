@@ -1,8 +1,8 @@
 <!--
  * @Author: haifeng.lu haifeng.lu@ly.com
  * @Date: 2022-05-23 10:43:31
- * @LastEditors: luhaifeng666
- * @LastEditTime: 2022-08-02 19:37:25
+ * @LastEditors: haifeng.lu
+ * @LastEditTime: 2022-08-04 16:25:27
  * @Description: 
 -->
 <p  align="center"><img src="./src/public/images/scratch.svg" /></p>
@@ -12,7 +12,7 @@
 <p align="center">Provide some efficient tools to improve your efficiency.</p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/-v0.3.2-yellow">
+  <img src="https://img.shields.io/badge/-v0.3.3-yellow">
   <img src="https://img.shields.io/badge/node-v14.17.0%2B-green">
 </p>
 
