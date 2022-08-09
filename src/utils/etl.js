@@ -1,5 +1,13 @@
 #!/usr/bin/env zx
 
+/*
+ * @Author: luhaifeng666 youzui@hotmail.com
+ * @Date: 2022-04-15 10:58:22
+ * @LastEditors: luhaifeng666
+ * @LastEditTime: 2022-08-09 15:01:25
+ * @Description: 
+ */
+
 require('zx/globals')
 const dotenv = require('dotenv')
 const inquirer = require('inquirer')
@@ -52,7 +60,9 @@ module.exports.getAddresses = function (cb, isAdd = false) {
  * @param {Object} data file data
  * @param {Object} msgConfig success message && error message
  */
-module.exports.addAddresses = function (data, { successMsg = 'Completed!', errorMsg = 'Error!'}) {
+module.exports.addAddresses = function (data, { successMsg = 'Completed!', errorMsg = 'Error!'} = {
+  successMsg: ''
+}) {
   fs.writeFile(BASE_URL, JSON.stringify(data), err => {
     if (err) {
       errorHandler(`${errorMsg}${err}`)

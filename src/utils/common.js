@@ -94,6 +94,13 @@ const notEmpty = msg => {
 
 const promisify = handler => new Promise(handler)
 
+/**
+ * Validate if the accept value is an Object
+ * @param {any} val 
+ * @returns 
+ */
+const isObject = val => val !== null && Object.prototype.toString.call(val) === '[object Object]'
+
 module.exports = {
   errorHandler,
   successHandler,
@@ -101,5 +108,6 @@ module.exports = {
   handleDotenv,
   handleDotenvCheck,
   notEmpty,
-  promisify
+  promisify,
+  isObject
 }
