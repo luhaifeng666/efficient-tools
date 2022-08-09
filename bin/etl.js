@@ -11,7 +11,7 @@ const qrcode = require('qrcode-terminal')
 const { version } = require('../package.json')
 const { program } = require('../src/utils/programInit')
 const { jumpUrl, getAddresses, addAddresses, promptCreator, BASE_URL } = require('../src/utils/etl')
-const { successHandler, errorHandler, handleDotenv, notEmpty } = require('../src/utils/common')
+const { successHandler, errorHandler, handleDotenv, notEmpty, isObject } = require('../src/utils/common')
 const { dotenvInit } = require('../src/utils/dotenvConfig')
 
 dotenvInit()
@@ -40,12 +40,25 @@ const {
   open, add, remove, list, check, empty, derive, init, directory, modify, where
 } = program.opts()
 
+/**
+ * set count number
+ * @param {*} key target key
+ */
+function setCount(key) {
+  getAddresses(data => {
+    const originData = JSON.parse(data)
+    originData[key].count += 1
+    addAddresses(originData)
+  })
+}
+
 // open address
 if (open) {
   getAddresses(data => {
-    const url = JSON.parse(data)[open] || ''
-    if (url) {
-      jumpUrl(url)
+    const { link } = JSON.parse(data)[open]
+    if (link) {
+      setCount(open)
+      jumpUrl(link)
     } else {
       errorHandler(`Address named ${open} does not exist! You can try using 'etl -a/--add' command first.`)
     }
@@ -55,7 +68,33 @@ if (open) {
 // print list
 if (list) {
   getAddresses(data => {
-    console.table(JSON.parse(data))
+    // Compatible with the original configuration
+    let originalData = JSON.parse(data)
+    const isValidate = Object.values(originalData).every(item => isObject(item))
+    if (!isValidate) {
+      originalData = Object.keys(originalData).reduce((obj, key) => ({
+        ...obj,
+        [key]: isObject(originalData[key]) ? originalData[key] : {
+          link: originalData[key],
+          count: 0
+        }
+      }), {})
+      addAddresses(originalData, {
+        errorMsg: 'etl --add/-a error: ',
+        successMsg: 'Addresses have been transformed!'
+      })
+    }
+    // get total counts
+    const totalCounts = Object.values(originalData).reduce((num, { count }) => num + count, 0)
+    console.table(
+      Object.keys(originalData).reduce((obj, key) => ({
+        ...obj,
+        [key]: {
+          ...originalData[key],
+          'percentage(%)': `${totalCounts ? ((originalData[key].count / totalCounts) * 100).toFixed(2) : '0.00'}%`
+        }
+      }), {})
+    )
   })
 }
 
@@ -65,7 +104,10 @@ if (add) {
     let addressConf = data || JSON.stringify({})
     const strs = add.split('/')
     const key = program.args[program.args.length - 1] || strs[strs.length - 1]
-    addressConf = { ...JSON.parse(addressConf), [key]: add }
+    addressConf = { ...JSON.parse(addressConf), [key]: {
+      link: add,
+      count: 0
+    }}
     addAddresses(addressConf, {
       errorMsg: 'etl --add/-a error: ',
       successMsg: `The address named '${key}' has been instered!`
@@ -103,9 +145,10 @@ if (remove) {
 // check address
 if (check) {
   getAddresses(data => {
-    successHandler(`The ${check} address is: ${JSON.parse(data)[check]}.
+    setCount(check)
+    successHandler(`The ${check} address is: ${JSON.parse(data)[check].link}.
 You can use your mobile device to scan the QR code below to browse`)
-    qrcode.generate(JSON.parse(data)[check], {small: true})
+    qrcode.generate(JSON.parse(data)[check], { small: true })
   })
 }
 
