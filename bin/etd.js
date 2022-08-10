@@ -52,7 +52,7 @@ function getFromAndTo () {
   }
 }
 
-function handleTranslate (q) {
+async function handleTranslateReq (q) {
   const appKey = process.env.APP_ID
   const key = process.env.SECRET_KEY
   const salt = new Date().getTime()
@@ -60,14 +60,28 @@ function handleTranslate (q) {
   const { from, to } = getFromAndTo()
   const str1 = appKey + truncate(q) + salt + curtime + key
   const sign = CryptoJS.SHA256(str1).toString(CryptoJS.enc.Hex)
+  let data = {}
 
-  axios({
-    method: 'get',
-    url: 'http://openapi.youdao.com/api',
-    params: { q, appKey, salt, from, to, sign, curtime, signType: 'v3' }
-  })
-  .then(function (response) {
-    const { query, translation, web, basic } = response.data
+  try {
+    const res = await axios({
+      method: 'get',
+      url: 'http://openapi.youdao.com/api',
+      params: { q, appKey, salt, from, to, sign, curtime, signType: 'v3' }
+    })
+    data = res.data || {}
+  } catch (e) {
+    errorHandler(e.message || 'No results!')
+  }
+  return data
+}
+
+/**
+ * parse result
+ * @param {Object} data 
+ */
+function handleParse(data) {
+  try {
+    const { query, translation, web, basic } = data
     let res = `${query}: ${translation.toString()}`
     if (basic) {
       const { FROM, TO } = process.env
@@ -88,10 +102,9 @@ ${res}
         successHandler(`${item.key} -> ${item.value.toString()}`)
       })
     }
-  })
-  .catch(function (error) {
+  } catch(error) {
     errorHandler(error.message || 'No results!')
-  })
+  }
 }
 
 // add appId && secret
@@ -134,8 +147,9 @@ if (translate) {
           message: 'What do you wanna translate?',
           validate: notEmpty('The translation content shouldn\'t be empty！')
         }
-      ], answer => {
-        handleTranslate(answer.question)
+      ], async answer => {
+        const data = await handleTranslateReq(answer.question)
+        handleParse(data)
       })
     } else {
       errorHandler('appId or secret-key shouldn\'t be empty! Please config them first by "etd -c/--config" command.')
