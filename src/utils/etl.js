@@ -4,31 +4,30 @@
  * @Author: luhaifeng666 youzui@hotmail.com
  * @Date: 2022-04-15 10:58:22
  * @LastEditors: luhaifeng666
- * @LastEditTime: 2022-08-09 15:01:25
+ * @LastEditTime: 2022-08-11 15:16:23
  * @Description: 
  */
 
-require('zx/globals')
-const dotenv = require('dotenv')
-const inquirer = require('inquirer')
-const { errorHandler, warningHandler, successHandler } = require('./common')
-const fs = require('fs')
-const path = require('path')
-const { PLATFORMS_TYPE } = require('../constants/index.js')
+import 'zx/globals'
+import fs from 'fs'
+import path from 'path'
+import dotenv from 'dotenv'
+import inquirer from 'inquirer'
+import { errorHandler, warningHandler, successHandler, __dirname } from './common.js'
+import { PLATFORMS_TYPE } from '../constants/index.js'
 
 dotenv.config({ path: path.join(__dirname, '../../.env') })
 
 
 const { HOME, ETL_DIRECTORY } = process.env
 
-const BASE_URL = path.join(ETL_DIRECTORY || HOME, '/etl.json')
-module.exports.BASE_URL = BASE_URL
+export const BASE_URL = path.join(ETL_DIRECTORY || HOME, '/etl.json')
 
 /**
  * jumpUrl
  * @param {String} url target url
  */
-module.exports.jumpUrl = async function (url) {
+export const jumpUrl = async function (url) {
   let handleType = PLATFORMS_TYPE[process.platform]
   await $`${handleType} ${url}`
 }
@@ -38,7 +37,7 @@ module.exports.jumpUrl = async function (url) {
  * @param {Function} cb call
  * @param {Boolean} isAdd add tag
  */
-module.exports.getAddresses = function (cb, isAdd = false) {
+export const getAddresses = function (cb, isAdd = false) {
   fs.readFile(BASE_URL, { encoding: 'utf-8'}, (err, data) => {
     try {
       if (!isAdd && err) {
@@ -60,7 +59,7 @@ module.exports.getAddresses = function (cb, isAdd = false) {
  * @param {Object} data file data
  * @param {Object} msgConfig success message && error message
  */
-module.exports.addAddresses = function (data, { successMsg = 'Completed!', errorMsg = 'Error!'} = {
+export const addAddresses = function (data, { successMsg = 'Completed!', errorMsg = 'Error!'} = {
   successMsg: ''
 }) {
   fs.writeFile(BASE_URL, JSON.stringify(data), err => {
@@ -77,7 +76,7 @@ module.exports.addAddresses = function (data, { successMsg = 'Completed!', error
  * @param {Object[]} configs 
  * @param {Function} cb 
  */
-module.exports.promptCreator = function (configs, cb) {
+export const promptCreator = function (configs, cb) {
   inquirer.prompt(configs).then(answer => {
     cb(answer)
   }).catch(err => {

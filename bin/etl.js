@@ -5,18 +5,15 @@
  * A tool to help you open a link quickly.
  */
 
-const fs = require('fs')
-const path = require('path')
-const qrcode = require('qrcode-terminal')
-const { version } = require('../package.json')
-const { program } = require('../src/utils/programInit')
-const { jumpUrl, getAddresses, addAddresses, promptCreator, BASE_URL } = require('../src/utils/etl')
-const { successHandler, errorHandler, handleDotenv, notEmpty, isObject } = require('../src/utils/common')
-const { dotenvInit } = require('../src/utils/dotenvConfig')
+import fs from 'fs'
+import path from 'path'
+import qrcode from 'qrcode-terminal'
+import { program } from '../src/utils/programInit.js'
+import { jumpUrl, getAddresses, addAddresses, promptCreator, BASE_URL } from '../src/utils/etl.js'
+import { successHandler, errorHandler, handleDotenv, notEmpty, isObject } from '../src/utils/common.js'
+import { dotenvInit } from '../src/utils/dotenvConfig.js'
 
 dotenvInit()
-
-program.version(version, '-v, --version')
 
 /**
  * arguments defination

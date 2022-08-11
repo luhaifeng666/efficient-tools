@@ -4,19 +4,15 @@
  * efficient-tools-dictionary
  * An English-Chinese translation dictionary
  */
-const CryptoJS = require('crypto-js')
-const path = require('path')
-const axios = require('axios')
-const { version } = require('../package.json')
-const { program } = require('../src/utils/programInit')
-const { promptCreator } = require('../src/utils/etl')
-const { successHandler, errorHandler, handleDotenv, handleDotenvCheck, notEmpty } = require('../src/utils/common')
-const { dotenvInit } = require('../src/utils/dotenvConfig')
-const { APP_ID, SECRET_KEY, LANGUAGES } = require('../src/constants/index.js')
+import CryptoJS from 'crypto-js'
+import axios from 'axios'
+import { program } from '../src/utils/programInit.js'
+import { promptCreator } from '../src/utils/etl.js'
+import { successHandler, errorHandler, handleDotenv, handleDotenvCheck, notEmpty } from '../src/utils/common.js'
+import { dotenvInit } from '../src/utils/dotenvConfig.js'
+import { APP_ID, SECRET_KEY, LANGUAGES } from '../src/constants/index.js' 
 
 dotenvInit()
-
-program.version(version, '-v, --version')
 
 program
   .option('-c, --config', 'add your appId and secret')
@@ -52,7 +48,7 @@ function getFromAndTo () {
   }
 }
 
-function handleTranslate (q) {
+async function handleTranslateReq (q) {
   const appKey = process.env.APP_ID
   const key = process.env.SECRET_KEY
   const salt = new Date().getTime()
@@ -60,14 +56,28 @@ function handleTranslate (q) {
   const { from, to } = getFromAndTo()
   const str1 = appKey + truncate(q) + salt + curtime + key
   const sign = CryptoJS.SHA256(str1).toString(CryptoJS.enc.Hex)
+  let data = {}
 
-  axios({
-    method: 'get',
-    url: 'http://openapi.youdao.com/api',
-    params: { q, appKey, salt, from, to, sign, curtime, signType: 'v3' }
-  })
-  .then(function (response) {
-    const { query, translation, web, basic } = response.data
+  try {
+    const res = await axios({
+      method: 'get',
+      url: 'http://openapi.youdao.com/api',
+      params: { q, appKey, salt, from, to, sign, curtime, signType: 'v3' }
+    })
+    data = res.data || {}
+  } catch (e) {
+    errorHandler(e.message || 'No results!')
+  }
+  return data
+}
+
+/**
+ * parse result
+ * @param {Object} data 
+ */
+function handleParse(data) {
+  try {
+    const { query, translation, web, basic } = data
     let res = `${query}: ${translation.toString()}`
     if (basic) {
       const { FROM, TO } = process.env
@@ -88,10 +98,9 @@ ${res}
         successHandler(`${item.key} -> ${item.value.toString()}`)
       })
     }
-  })
-  .catch(function (error) {
+  } catch(error) {
     errorHandler(error.message || 'No results!')
-  })
+  }
 }
 
 // add appId && secret
@@ -134,8 +143,9 @@ if (translate) {
           message: 'What do you wanna translate?',
           validate: notEmpty('The translation content shouldn\'t be empty！')
         }
-      ], answer => {
-        handleTranslate(answer.question)
+      ], async answer => {
+        const data = await handleTranslateReq(answer.question)
+        handleParse(data)
       })
     } else {
       errorHandler('appId or secret-key shouldn\'t be empty! Please config them first by "etd -c/--config" command.')

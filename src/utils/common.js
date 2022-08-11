@@ -1,9 +1,14 @@
 #!/usr/bin/env zx
 
-require('zx/globals')
-const { readFile, writeFile } = require('fs')
-const dotenv = require('dotenv')
-const path = require('path')
+import 'zx/globals'
+import dotenv from 'dotenv'
+import path from 'path'
+import { readFile, writeFile } from 'fs'
+import { fileURLToPath } from 'url'
+import { createRequire } from 'module'
+
+const __filename = fileURLToPath(import.meta.url)
+export const __dirname = path.dirname(__filename)
 
 const BASE_URL = path.join(__dirname, '../../.env')
 
@@ -11,7 +16,7 @@ const BASE_URL = path.join(__dirname, '../../.env')
  * error handler
  * @param {String} msg 
  */
-const errorHandler = msg => {
+export const errorHandler = msg => {
   console.error(chalk.red(msg))
 }
 
@@ -19,7 +24,7 @@ const errorHandler = msg => {
  * warning handler
  * @param {String} msg 
  */
- const warningHandler = msg => {
+export const warningHandler = msg => {
   console.warn(chalk.yellowBright(msg))
 }
 
@@ -27,11 +32,11 @@ const errorHandler = msg => {
  * success handler
  * @param {String} msg 
  */
- const successHandler = msg => {
+export  const successHandler = msg => {
   console.log(chalk.greenBright(msg))
 }
 
-const getDotenvContent = (baseUrl, cb) => {
+export const getDotenvContent = (baseUrl, cb) => {
   readFile(baseUrl, { encoding: 'utf-8'}, (err, data) => {
     try {
       if (err) throw err
@@ -48,7 +53,7 @@ const getDotenvContent = (baseUrl, cb) => {
  * @param {*} config 
  * @param {*} msg 
  */
-const handleDotenv = (config, msg = 'Config successfully!', filepath = BASE_URL) => {
+export const handleDotenv = (config, msg = 'Config successfully!', filepath = BASE_URL) => {
   getDotenvContent(filepath, res => {
     const content = { ...res, ...config }
     const envConfig = Object.keys(content).reduce((str, key) => `${str}
@@ -68,7 +73,7 @@ ${key}=${content[key]}`.trim(), '')
  * @param {*} keys 
  * @param {*} cb 
  */
-const handleDotenvCheck = (keys, cb, baseUrl = BASE_URL) => {
+export const handleDotenvCheck = (keys, cb, baseUrl = BASE_URL) => {
   if (Array.isArray(keys)) {
     getDotenvContent(baseUrl, data=> {
       const res = keys.every(key => data[key])
@@ -83,7 +88,7 @@ const handleDotenvCheck = (keys, cb, baseUrl = BASE_URL) => {
  * inquirer validate
  * @param {*} msg 
  */
-const notEmpty = msg => {
+export const notEmpty = msg => {
   return answer => {
     if (!(answer.trim())) {
       return msg
@@ -92,22 +97,18 @@ const notEmpty = msg => {
   }
 }
 
-const promisify = handler => new Promise(handler)
+export const promisify = handler => new Promise(handler)
 
 /**
  * Validate if the accept value is an Object
  * @param {any} val 
  * @returns 
  */
-const isObject = val => val !== null && Object.prototype.toString.call(val) === '[object Object]'
+export const isObject = val => val !== null && Object.prototype.toString.call(val) === '[object Object]'
 
-module.exports = {
-  errorHandler,
-  successHandler,
-  warningHandler,
-  handleDotenv,
-  handleDotenvCheck,
-  notEmpty,
-  promisify,
-  isObject
+// get package version code
+export const getVersion = () => {
+  const require = createRequire(import.meta.url)
+  const { version } = require('../../package.json')
+  return version
 }

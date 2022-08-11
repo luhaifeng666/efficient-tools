@@ -4,22 +4,23 @@
  * @Author: haifeng.lu haifeng.lu@ly.com
  * @Date: 2022-08-02 16:46:11
  * @LastEditors: luhaifeng666
- * @LastEditTime: 2022-08-02 19:38:32
+ * @LastEditTime: 2022-08-11 14:58:29
  * @Description: 
  */
 
-const { copyFile } = require('fs/promises')
-const { version } = require('../package.json')
-const { program } = require('../src/utils/programInit')
-const { promptCreator } = require('../src/utils/etl')
-const { dotenvInit } = require('../src/utils/dotenvConfig')
-const { successHandler, errorHandler, notEmpty, handleDotenv } = require('../src/utils/common')
+import { copyFile } from 'fs/promises'
+import { program } from '../src/utils/programInit.js'
+import { promptCreator } from '../src/utils/etl.js'
+import { dotenvInit } from '../src/utils/dotenvConfig.js'
+import { successHandler, errorHandler, notEmpty, handleDotenv } from '../src/utils/common.js'
+import { fileURLToPath } from 'url'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 // dotenv configuration
 const dotenvPath = path.join(__dirname, '../.env')
 dotenvInit()
-
-program.version(version, '-v, --version')
 
 program
   .option('-i, --init', 'init ET configuration')
