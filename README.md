@@ -2,7 +2,7 @@
  * @Author: haifeng.lu haifeng.lu@ly.com
  * @Date: 2022-05-23 10:43:31
  * @LastEditors: luhaifeng666
- * @LastEditTime: 2022-08-11 19:42:20
+ * @LastEditTime: 2022-08-11 19:56:30
  * @Description: 
 -->
 <p  align="center"><img src="./src/public/images/scratch.svg" /></p>
@@ -12,7 +12,7 @@
 <p align="center">Provide some efficient tools to improve your efficiency.</p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/-v0.3.7-yellow">
+  <img src="https://img.shields.io/badge/-v0.3.8-yellow">
   <img src="https://img.shields.io/badge/node-v14.17.0%2B-green">
   <img src="https://img.shields.io/badge/vitest-%5E0.21.1-green">
 </p>
