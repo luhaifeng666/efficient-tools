@@ -4,19 +4,15 @@
  * efficient-tools-dictionary
  * An English-Chinese translation dictionary
  */
-const CryptoJS = require('crypto-js')
-const path = require('path')
-const axios = require('axios')
-const { version } = require('../package.json')
-const { program } = require('../src/utils/programInit')
-const { promptCreator } = require('../src/utils/etl')
-const { successHandler, errorHandler, handleDotenv, handleDotenvCheck, notEmpty } = require('../src/utils/common')
-const { dotenvInit } = require('../src/utils/dotenvConfig')
-const { APP_ID, SECRET_KEY, LANGUAGES } = require('../src/constants/index.js')
+import CryptoJS from 'crypto-js'
+import axios from 'axios'
+import { program } from '../src/utils/programInit.js'
+import { promptCreator } from '../src/utils/etl.js'
+import { successHandler, errorHandler, handleDotenv, handleDotenvCheck, notEmpty } from '../src/utils/common.js'
+import { dotenvInit } from '../src/utils/dotenvConfig.js'
+import { APP_ID, SECRET_KEY, LANGUAGES } from '../src/constants/index.js' 
 
 dotenvInit()
-
-program.version(version, '-v, --version')
 
 program
   .option('-c, --config', 'add your appId and secret')

@@ -6,14 +6,17 @@
  * @Date: 2022/5/23
  */
 
-const tinify = require('tinify')
-const path = require('path')
-const { readdir, mkdir } = require('fs/promises')
-const { version } = require('../package.json')
-const { program } = require('../src/utils/programInit')
-const { promptCreator } = require('../src/utils/etl')
-const { dotenvInit } = require('../src/utils/dotenvConfig')
-const { successHandler, errorHandler, handleDotenv, handleDotenvCheck, notEmpty, promisify } = require('../src/utils/common')
+import tinify from 'tinify'
+import path from 'path'
+import { fileURLToPath } from 'url'
+import { readdir, mkdir } from 'fs/promises'
+import { program } from '../src/utils/programInit.js'
+import { promptCreator } from '../src/utils/etl.js'
+import { dotenvInit } from '../src/utils/dotenvConfig.js'
+import { successHandler, errorHandler, handleDotenv, handleDotenvCheck, notEmpty, promisify } from '../src/utils/common.js'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 // dotenv configuration
 const dotenvPath = path.join(__dirname, '../.env')
@@ -26,8 +29,6 @@ const IMAGE_SUPPORT_EXTS = [
 
 // PWD
 const BASE_URL = process.env.PWD
-
-program.version(version, '-v, --version')
 
 program
   .option('-s, --set', 'set your API key')
