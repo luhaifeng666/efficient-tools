@@ -171,7 +171,7 @@ if (compress) {
                   successHandler(message)
                   successHandler(startLine)
                   // compress images
-                  compressHandler(targetDir, images, path.resolve(target, '..'))
+                  compressHandler(targetDir, images, path.resolve(pathname, '..'))
                 }
               } catch (e) {
                 errorHandler(e)
