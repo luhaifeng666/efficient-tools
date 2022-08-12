@@ -1,5 +1,7 @@
 #!/usr/bin/env zx
 
+/*global chalk, Buffer */
+
 import 'zx/globals'
 import dotenv from 'dotenv'
 import path from 'path'
@@ -17,7 +19,7 @@ const BASE_URL = path.join(__dirname, '../../.env')
  * @param {String} msg 
  */
 export const errorHandler = msg => {
-  console.error(chalk.red(msg))
+	console.error(chalk.red(msg))
 }
 
 /**
@@ -25,7 +27,7 @@ export const errorHandler = msg => {
  * @param {String} msg 
  */
 export const warningHandler = msg => {
-  console.warn(chalk.yellowBright(msg))
+	console.warn(chalk.yellowBright(msg))
 }
 
 /**
@@ -33,19 +35,19 @@ export const warningHandler = msg => {
  * @param {String} msg 
  */
 export  const successHandler = msg => {
-  console.log(chalk.greenBright(msg))
+	console.log(chalk.greenBright(msg))
 }
 
 export const getDotenvContent = (baseUrl, cb) => {
-  readFile(baseUrl, { encoding: 'utf-8'}, (err, data) => {
-    try {
-      if (err) throw err
-      const buf = Buffer.from(data)
-      cb(dotenv.parse(buf))
-    } catch (e) {
-      errorHandler(e.message)
-    }
-  })
+	readFile(baseUrl, { encoding: 'utf-8'}, (err, data) => {
+		try {
+			if (err) throw err
+			const buf = Buffer.from(data)
+			cb(dotenv.parse(buf))
+		} catch (e) {
+			errorHandler(e.message)
+		}
+	})
 }
 
 /**
@@ -54,18 +56,18 @@ export const getDotenvContent = (baseUrl, cb) => {
  * @param {*} msg 
  */
 export const handleDotenv = (config, msg = 'Config successfully!', filepath = BASE_URL) => {
-  getDotenvContent(filepath, res => {
-    const content = { ...res, ...config }
-    const envConfig = Object.keys(content).reduce((str, key) => `${str}
+	getDotenvContent(filepath, res => {
+		const content = { ...res, ...config }
+		const envConfig = Object.keys(content).reduce((str, key) => `${str}
 ${key}=${content[key]}`.trim(), '')
-    writeFile(filepath, envConfig, err => {
-      if (err) {
-        errorHandler(err.message)
-      } else {
-        successHandler(msg)
-      }
-    })
-  })
+		writeFile(filepath, envConfig, err => {
+			if (err) {
+				errorHandler(err.message)
+			} else {
+				successHandler(msg)
+			}
+		})
+	})
 }
 
 /**
@@ -74,14 +76,14 @@ ${key}=${content[key]}`.trim(), '')
  * @param {*} cb 
  */
 export const handleDotenvCheck = (keys, cb, baseUrl = BASE_URL) => {
-  if (Array.isArray(keys)) {
-    getDotenvContent(baseUrl, data=> {
-      const res = keys.every(key => data[key])
-      cb(res)
-    })
-  } else {
-    errorHandler('"Keys" must be an array.')
-  }
+	if (Array.isArray(keys)) {
+		getDotenvContent(baseUrl, data=> {
+			const res = keys.every(key => data[key])
+			cb(res)
+		})
+	} else {
+		errorHandler('"Keys" must be an array.')
+	}
 }
 
 /**
@@ -89,12 +91,12 @@ export const handleDotenvCheck = (keys, cb, baseUrl = BASE_URL) => {
  * @param {*} msg 
  */
 export const notEmpty = msg => {
-  return answer => {
-    if (!(answer.trim())) {
-      return msg
-    }
-    return true
-  }
+	return answer => {
+		if (!(answer.trim())) {
+			return msg
+		}
+		return true
+	}
 }
 
 export const promisify = handler => new Promise(handler)
@@ -108,7 +110,7 @@ export const isObject = val => val !== null && Object.prototype.toString.call(va
 
 // get package version code
 export const getVersion = () => {
-  const require = createRequire(import.meta.url)
-  const { version } = require('../../package.json')
-  return version
+	const require = createRequire(import.meta.url)
+	const { version } = require('../../package.json')
+	return version
 }
