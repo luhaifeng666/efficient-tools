@@ -161,7 +161,7 @@ if (compress) {
 							const images = await getAllImagesName(isDeep, pathname)
 							if (Object.keys(images).length) {
 								// create a new directory to store compressed images
-								const targetDir = `${target}/${dName}`
+								const targetDir = `${target.trim()}/${dName.trim()}`
 								const message = `* Compression start! The output file path is ${targetDir} *`
 								const startLine = new Array(message.length).fill('*').join('')
 								await mkdir(targetDir)
