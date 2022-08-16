@@ -2,7 +2,7 @@
  * @Author: haifeng.lu haifeng.lu@ly.com
  * @Date: 2022-05-23 10:43:31
  * @LastEditors: luhaifeng666
- * @LastEditTime: 2022-08-16 17:04:02
+ * @LastEditTime: 2022-08-16 17:22:24
  * @Description: 
 -->
 <p  align="center"><img src="./src/public/images/scratch.svg" /></p>
@@ -68,17 +68,22 @@ Options:
 
 <p align="center">A tool for translation.</p>
 
-> TIP: Before using this plugin, you need to browse to [https://ai.youdao.com/#/](https://ai.youdao.com/#/) to register first!!
+> TIP:
+>
+> This command has supported the [Youdai translation API](https://ai.youdao.com/#/) and the [Microsoft translation API](https://docs.microsoft.com/zh-cn/azure/cognitive-services/translator/quickstart-translator?tabs=csharp)🥳!!
+>
+> You can switch the translation service by `etd --service` command.
 
 ```
 Usage: etd [options]
 
 Options:
   -v, --version    output the version number
-  -c, --config     add your appId and secret
+  -c, --config     setup your translation service's configurations
   -l, --language   list all supported languages
   -t, --translate  translate
   -s, --set        set translation rule(from A to B)
+  --service        set or switch the type of translation service
   -r, --rule       print current translation rule
   -h, --help       display help for command
 ```
