@@ -5,7 +5,7 @@
  * @Author: haifeng.lu haifeng.lu@ly.com
  * @Date: 2022-08-02 16:46:11
  * @LastEditors: luhaifeng666
- * @LastEditTime: 2022-08-12 17:47:44
+ * @LastEditTime: 2022-08-16 16:58:57
  * @Description: 
  */
 
@@ -60,6 +60,16 @@ if (init) {
 			},
 			{
 				value: 2,
+				name: 'The microsoft secret key',
+				key: 'MICROSOFT_SECRET_KEY'
+			},
+			{
+				value: 3,
+				name: 'The microsoft location',
+				key: 'MIRCOSOFT_LOCATION'
+			},  
+			{
+				value: 4,
 				name: 'The tinify apiKey',
 				key: 'TINIFY_API_KEY'
 			}
