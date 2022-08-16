@@ -94,8 +94,6 @@ async function handleTranslateReq (q) {
 	const sign = CryptoJS.SHA256(str1).toString(CryptoJS.enc.Hex)
 	let data = {}
 
-	console.log({ q, appKey, salt, from, to, sign, curtime, signType: 'v3' })
-  
 	try {
 		const res = await axios({
 			method: 'get',
